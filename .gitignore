@@ -1,0 +1,9 @@
+# ignore special folder
+.git/*
+.vscode/*
+venv/*
+# ignore all folder
+*__pycache__/
+*.pytest_cache/
+# ignore special file
+*.bak
