@@ -15,15 +15,10 @@ from flask_restful import (
     Api,
     Resource,
 )
-# from flask_pymongo import PyMongo
 
-# from resources.person import(
-#     Person
-# )
-
-from config import load_config
-
-from src.resources.app_mail import AppMail
+# from config import load_config
+from src.config import load_config
+from src.resources import l3_email
 
 def create_app(test_config=None):
     app = Flask(__name__)
@@ -42,17 +37,11 @@ def create_app(test_config=None):
     api_bp = Blueprint('api', __name__)
     api = Api(api_bp)
 
-    # api.add_resource(Person, '/demo/person', endpoint="persion")
-    # api.add_resource(
-    #     Person, 
-    #     '/demo/person', 
-    #     '/demo/person/<string:id>', 
-    #     endpoint="persion")
     api.add_resource(
-        AppMail,
-        '/tmp/app_mail',
-        '/tmp/app_mail/<string:id>',
-        endpoint='app_mail',
+        l3_email.Email,
+        '/dev/l3_email',
+        '/dev/l3_email/<string:id>',
+        endpoint='l3_email',
         resource_class_kwargs={'mongo_cfg': mongo_cfg}
     )
 

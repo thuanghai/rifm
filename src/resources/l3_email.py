@@ -52,12 +52,12 @@ person_fields = {
     'date_updated': fields.DateTime,
 }
 
-class AppMail(Resource):
+class Email(Resource):
 
     def __init__(self, **kwargs):
         self.mongo_cfg = kwargs['mongo_cfg']
-        self.db_name = 'daemo'
-        self.collection_name = 'appmail'
+        self.db_name = 'dev'
+        self.collection_name = 'l3_email'
     
     def get(self):
         if request.method != 'GET':

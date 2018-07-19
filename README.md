@@ -1,73 +1,186 @@
-**RIFM - RESTful Interface For MongoDB**
-===
+# **RIFM - RESTful Interface For MongoDB**
 
-**Requirements**
----
+## **Requirements**
 
-- Mongodb
+- MongoDB
 - Python 3.6
 - Flask
+- Flask-RESTful
 - pymongo
 
-**Http Code**
-200:OK
-201:Created
-204:No Contect
-417:Expectation Failed
+## **Http Code**
 
-**Usage**
----
+- 200: OK
+- 201: Created
+- 204: No Contect
+- 417: Expectation Failed
 
-Querying:
+## **MongoDB Design And Usage**
 
-```(cmd)
-curl -X GET \
-    <host>//<class_name>
-```
+### **Signal Element (1st Level)**
 
-or
+| DB Field Name | Description |
+| - | - |
+| number | <datatime+business_type+serial_number> |
+| satellite | <satellite_id> |
+| antenna_id | <antenna_id_value> |
+| polarity | <polarity_method> |
+| frequency | <frequency_value> |
+| modulation_type | <modulation_type_value> |
+| modulation_rate | <modulation_rate_value> |
+| channel_coding | <channel_coding> |
+| data_source_type | <data_source_type> (exp.: master/vsat station) |
+| demodulator_id | <demodulator_id_value> |
+| time_stamp | <time_stamp_value> |
+| frame_type | <frame_type_value> (exp.: control frame/ip data)|
+| file_path | <file_storage_path> |
 
-```(cmd)
-curl -X GET "http://127.0.0.1:8000/person?where={'sex': 'male'}"
-```
-
-**Client example:**
+**Usage:**
 
 ```(cmd)
 curl -X POST \
-    -H "Content-Type: application/json" \
-    -d '{"name": "Alice", \
-        "sex": "male", \
-        "birth": "1983-01-01"}'\
-     http://127.0.0.1/person
+    -H "Content-Type:application/json" \
+    -d '{
+        "number":"<time+business_type+sn>",
+        "satellite":"<satellite_id>",
+        "antenna_id":"<antenna_id>",
+        "polarity":"<polarity_method>",
+        "frequency":"<frequency_value>",
+        "modulation_type":"<modulation_type_value>",
+        "modulation_rate":"<modulation_rate_value>",
+        "channel_coding":"<channel_coding>",
+        "data_source_type":"<data_source_type>",
+        "demodulator_id":"<demodulator_id_value>",
+        "time_stamp":"<time_stamp_value>",
+        "frame_type":"<frame_type_value>",
+        "file_path":"<file_storage_path>"
+    }' \
+    http://<FQDN>:27080/dev/l1_signal_element
 ```
 
+### **Control Frame (2nd Level)**
+
+| DB Field Name | Description |
+| - | - |
+| number | <datatime+business_type+serial_number> |
+| type | <frame_type> (exp.:0xDC,0xDD,0x40,6 bytes frame,...) |
+| file_path | <file_storage_path> |
+
+**Usage:**
+
 ```(cmd)
-curl -X POST -H "Content-Type: application/json" -d '{"name": "Alice", "sex": "female", "birth": "1983-01-01", "age": 10}' http://127.0.0.1:8000/person
-curl -X POST -H "Content-Type: application/json" -d '{"name": "Alice2", "sex": "female", "birth": "1983-02-01", "age": 20}' http://127.0.0.1:8000/person
-curl -X POST -H "Content-Type: application/json" -d '{"name": "Bob", "sex": "male", "birth": "1983-01-01", "age": 10}' http://127.0.0.1:8000/person
-curl -X POST -H "Content-Type: application/json" -d '{"name": "Bob2", "sex": "male", "birth": "1983-02-01", "age": 20}' http://127.0.0.1:8000/person
+curl -X POST \
+    -H "Content-Type:application/json" \
+    -d '{
+        "number":"<time+business_type+sn>",
+        "type":"<frame_type>",
+        "file_path":"<file_storage_path>"
+    }' \
+    http://<FQDN>:27080/dev/l2_control_frame
 ```
 
-**Query document:**
+### **IP Data (2nd Level)**
+
+| DB Field Name | | Description |
+| - | - | - |
+| number | | <datatime+business_type+serial_number> |
+| encrypted | |  <y/n> |
+| 1st_layer_ip | protocol | <network_protocol> |
+| | src_ip | <src_ip> |
+| | dst_ip | <dst_ip> |
+| | src_port | <src_port> |
+| | dst_port | <dst_port> |
+| 2nd_layer_ip | protocol | <network_protocol> |
+| | src_ip | <src_ip> |
+| | dst_ip | <dst_ip> |
+| | src_port | <src_port> |
+| | dst_port | <dst_port> |
+| 3rd_layer_ip | protocol | <network_protocol> |
+| | src_ip | <src_ip> |
+| | dst_ip | <dst_ip> |
+| | src_port | <src_port> |
+| | dst_port | <dst_port> |
+| file_path | | <file_storage_path> |
+
+**Usage:**
 
 ```(cmd)
-curl -X GET http://localhost:8000/demo/person/5b022c91d42b3421843b5246
+curl -X POST \
+    -H "Content-Type:application/json" \
+    -d '{
+        "number":"<time+business_type+sn>",
+        "encrypted":"<y/n>",
+        "1st_layer_ip": {
+            "protocol":"<network_protocol>",
+            "src_ip":"<src_ip>",
+            "dst_ip":"<dst_ip>",
+            "src_port":"<src_port>",
+            "dst_port":"<dst_port>
+        },
+        "2nd_layer_ip": {
+            "protocol":"<network_protocol>",
+            "src_ip":"<src_ip>",
+            "dst_ip":"<dst_ip>",
+            "src_port":"<src_port>",
+            "dst_port":"<dst_port>
+        },
+        "3rd_layer_ip": {
+            "protocol":"<network_protocol>",
+            "src_ip":"<src_ip>",
+            "dst_ip":"<dst_ip>",
+            "src_port":"<src_port>",
+            "dst_port":"<dst_port>
+        },
+        "file_path":"<file_storage_path>"
+    }' \
+    http://<FQDN>:27080/dev/l2_ip_data
 ```
 
-**Update document:**
+### **E-mail (3rd Level)**
+
+| DB Field Name | Description |
+| - | - |
+| number | <datatime+business_type+serial_number> |
+| title | <email_title> |
+| from | <from_address> |
+| to | <to_address> |
+| attachment_tpye | <attachment_type> (exp.:pdf) |
+| file_path | <file_storage_path> |
+
+**Usage:**
 
 ```(cmd)
-curl -X PUT \
-    -H "Content-Type: application/json" \
-    -d '{<key>: <new_value>}' \
-    http://localhost/person/<id>
-
+curl -X POST \
+    -H "Content-Type:application/json" \
+    -d '{
+        "number":"<time+business_type+sn>",
+        "from":"<from_addresss>",
+        "to":"<to_address>",
+        "title":"email_title",
+        "file_path":"<file_storage_path>"
+    }' \
+    http://<FQDN>:27080/dev/l3_email
 ```
 
+### **HTTP (3rd Level)**
+
+| DB Field Name | Description |
+| - | - |
+| number | <datatime+business_type+serial_number> |
+| type | <file_type> |
+| title | <page_title> |
+| file_path | <file_storage_path> |
+
+**Usage:**
+
 ```(cmd)
-curl -X PUT \
-    -H "Content-Type: application/json" \
-    -d '{$set : {"sex": "male"}} \
-    http://localhost/person/<id>
+curl -X POST \
+    -H "Content-Type:application/json" \
+    -d '{
+        "number":"<time+business_type+sn>",
+        "type":"<file_type>",
+        "title":"<page_title>",
+        "file_path":"<file_storage_path>"
+    }' \
+    http://<FQDN>:27080/dev/l3_http
 ```

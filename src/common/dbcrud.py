@@ -1,12 +1,4 @@
 # -*- coding: utf-8 -*-
-'''
- * @Author: kowalsky 
- * @Date: 2018-05-22 17:36:20 
- * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-05-22 17:37:43
-'''
-import configparser
-
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 
@@ -40,25 +32,25 @@ def create_one(
     # Insert one document
     return clt.insert_one(data)
 
-# def find_one(
-#     db_name: dict(type=str, help='MongoDB database name'),
-#     collection_name: dict(type=str, help='MongoDB collection name'), 
-#     id
-# ):
+def find_one(
+    db_name: dict(type=str, help='MongoDB database name'),
+    collection_name: dict(type=str, help='MongoDB collection name'),  
+    id
+):
 #     # # Get database
 #     # db = db_connect(db_name)
 #     # # Get collection
 #     # clt = db[collection_name]
 #     # # Find document by 'id'
 #     # return clt.find_one({'_id': ObjectId(id)})
-#     pass
+    pass
 
-# def update(
-#     db_name: dict(type=str, help='MongoDB database name'),
-#     collection_name: dict(type=str, help='MongoDB collection name'), 
-#     data,
-#     id=None
-# ):
+def update(
+    db_name: dict(type=str, help='MongoDB database name'),
+    collection_name: dict(type=str, help='MongoDB collection name'), 
+    data,
+    id=None
+):
 #     # # Get database
 #     # db = db_connect(db_name)
 #     # # Get collection
@@ -69,13 +61,13 @@ def create_one(
 #     # else:
 #     #     # Update documents all
 #     #     return clt.update_many({'_id:' + ObjectId(id)}, data)
-#     pass
+    pass
 
-# def delete(
-#     db_name: dict(type=str, help='MongoDB database name'),
-#     collection_name: dict(type=str, help='MongoDB collection name'),
-#     id=None
-# ):
+def delete(
+    db_name: dict(type=str, help='MongoDB database name'),
+    collection_name: dict(type=str, help='MongoDB collection name'),
+    id=None
+):
 #     # # Get database
 #     # db = db_connect(db_name)
 #     # # Get collection
@@ -86,4 +78,4 @@ def create_one(
 #     # else:
 #     #     # Find all documents and delete them
 #     #     return clt.delete_many({'_id': ObjectId(id)})
-#     pass
+    pass
