@@ -146,6 +146,8 @@ curl -X POST \
 | to | <to_address> |
 | attachment_tpye | <attachment_type> (exp.:pdf) |
 | file_path | <file_storage_path> |
+| input_user | <input_user_name> |
+| input_time | <input_date_time> |
 
 **Usage:**
 
@@ -157,7 +159,9 @@ curl -X POST \
         "from":"<from_addresss>",
         "to":"<to_address>",
         "title":"email_title",
-        "file_path":"<file_storage_path>"
+        "file_path":"<file_storage_path>",
+        "input_user":"<input_user_name>",
+        "input_time":"<input_date_time>"
     }' \
     http://<FQDN>:27080/dev/l3_email
 ```
@@ -170,6 +174,8 @@ curl -X POST \
 | type | <file_type> |
 | title | <page_title> |
 | file_path | <file_storage_path> |
+| input_user | <input_user_name> |
+| input_time | <input_date_time> |
 
 **Usage:**
 
@@ -181,6 +187,8 @@ curl -X POST \
         "type":"<file_type>",
         "title":"<page_title>",
         "file_path":"<file_storage_path>"
+        "input_user":"<input_user_name>",
+        "input_time":"<input_date_time>"
     }' \
     http://<FQDN>:27080/dev/l3_http
 ```

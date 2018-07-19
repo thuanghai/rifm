@@ -13,12 +13,15 @@ from flask import (
 )
 from flask_restful import (
     Api,
-    Resource,
+    Resource
 )
 
 # from config import load_config
 from src.config import load_config
-from src.resources import l3_email
+from src.resources import (
+    l3_http,
+    l3_email
+)
 
 def create_app(test_config=None):
     app = Flask(__name__)
@@ -37,6 +40,13 @@ def create_app(test_config=None):
     api_bp = Blueprint('api', __name__)
     api = Api(api_bp)
 
+    api.add_resource(
+        l3_http.Http,
+        '/dev/l3_http',
+        '/dev/l3_http/<string:id>',
+        endpoint='l3_http',
+        resource_class_kwargs={'mongo_cfg': mongo_cfg}
+    )
     api.add_resource(
         l3_email.Email,
         '/dev/l3_email',

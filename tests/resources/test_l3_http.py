@@ -5,13 +5,13 @@ import pytest
 import json
 
 from flask import url_for
-from src.resources.l3_email import Email
+from src.resources.l3_http import Http
 
 def test_get(client):
     """
     Test client get method for null
     """
-    chkresponse = client.get(url_for('api.l3_email'))
+    chkresponse = client.get(url_for('api.l3_http'))
     assert chkresponse.status_code == 200
 
 def test_post(client):
@@ -36,7 +36,7 @@ def test_post(client):
     }
 
     chkresponse = client.post(
-        url_for('api.l3_email'), 
+        url_for('api.l3_http'), 
         json = test_post_data
     )
     # Note:
