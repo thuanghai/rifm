@@ -101,6 +101,8 @@ curl -X POST \
 | | src_port | <src_port> |
 | | dst_port | <dst_port> |
 | file_path | | <file_storage_path> |
+| input_user | | <input_user_name> |
+| input_time | | <input_date_time> |
 
 **Usage:**
 
@@ -115,23 +117,25 @@ curl -X POST \
             "src_ip":"<src_ip>",
             "dst_ip":"<dst_ip>",
             "src_port":"<src_port>",
-            "dst_port":"<dst_port>
+            "dst_port":"<dst_port>"
         },
         "2nd_layer_ip": {
             "protocol":"<network_protocol>",
             "src_ip":"<src_ip>",
             "dst_ip":"<dst_ip>",
             "src_port":"<src_port>",
-            "dst_port":"<dst_port>
+            "dst_port":"<dst_port>"
         },
         "3rd_layer_ip": {
             "protocol":"<network_protocol>",
             "src_ip":"<src_ip>",
             "dst_ip":"<dst_ip>",
             "src_port":"<src_port>",
-            "dst_port":"<dst_port>
+            "dst_port":"<dst_port>"
         },
         "file_path":"<file_storage_path>"
+        "input_user":"<input_user_name>",
+        "input_time":"<input_date_time>"
     }' \
     http://<FQDN>:27080/dev/l2_ip_data
 ```

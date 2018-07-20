@@ -19,6 +19,7 @@ from flask_restful import (
 # from config import load_config
 from src.config import load_config
 from src.resources import (
+    l2_ip,
     l3_http,
     l3_email
 )
@@ -40,6 +41,15 @@ def create_app(test_config=None):
     api_bp = Blueprint('api', __name__)
     api = Api(api_bp)
 
+    # set route for 'l2_ip' function
+    api.add_resource(
+        l2_ip.Ip,
+        '/dev/l2_ip',
+        '/dev/l2_ip/<string:id>',
+        endpoint='l2_ip',
+        resource_class_kwargs={'mongo_cfg': mongo_cfg}
+    )
+    # set route for 'l3_http' function
     api.add_resource(
         l3_http.Http,
         '/dev/l3_http',
@@ -47,6 +57,7 @@ def create_app(test_config=None):
         endpoint='l3_http',
         resource_class_kwargs={'mongo_cfg': mongo_cfg}
     )
+    # set route for 'l3_email' function
     api.add_resource(
         l3_email.Email,
         '/dev/l3_email',
