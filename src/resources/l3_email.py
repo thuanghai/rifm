@@ -54,6 +54,17 @@ person_fields = {
 
 class Email(Resource):
 
+    # | DB Field Name   | Description                            |
+    # | --------------- | -------------------------------------- |
+    # | number          | <datatime+business_type+serial_number> |
+    # | title           | <email_title>                          |
+    # | from            | <from_address>                         |
+    # | to              | <to_address>                           |
+    # | attachment_tpye | <attachment_type> (exp.:pdf)           |
+    # | file_path       | <file_storage_path>                    |
+    # | input_user      | <input_user_name>                      |
+    # | input_time      | <input_date_time>                      |
+
     def __init__(self, **kwargs):
         self.mongo_cfg = kwargs['mongo_cfg']
         self.db_name = 'dev'

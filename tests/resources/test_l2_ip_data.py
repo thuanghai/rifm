@@ -5,50 +5,20 @@ import pytest
 import json
 
 from flask import url_for
-from src.resources.l2_ip import Ip
+from src.resources.l2_ip_data import IpData
 
 def test_get(client):
     """
     Test client get method for null
     """
-    chkresponse = client.get(url_for('api.l2_ip'))
+    chkresponse = client.get(url_for('api.l2_ip_data'))
     assert chkresponse.status_code == 200
 
 def test_post(client):
     """
     Test client post method for insert one document
     """
-# curl -X POST \
-#     -H "Content-Type:application/json" \
-#     -d '{
-#         "number":"<time+business_type+sn>",
-#         "encrypted":"<y/n>",
-#         "1st_layer_ip": {
-#             "protocol":"<network_protocol>",
-#             "src_ip":"<src_ip>",
-#             "dst_ip":"<dst_ip>",
-#             "src_port":"<src_port>",
-#             "dst_port":"<dst_port>
-#         },
-#         "2nd_layer_ip": {
-#             "protocol":"<network_protocol>",
-#             "src_ip":"<src_ip>",
-#             "dst_ip":"<dst_ip>",
-#             "src_port":"<src_port>",
-#             "dst_port":"<dst_port>
-#         },
-#         "3rd_layer_ip": {
-#             "protocol":"<network_protocol>",
-#             "src_ip":"<src_ip>",
-#             "dst_ip":"<dst_ip>",
-#             "src_port":"<src_port>",
-#             "dst_port":"<dst_port>
-#         },
-#         "file_path":"<file_storage_path>"
-#         “input_user":"<input_user_name>",
-#         "input_time":"<input_date_time>"
-#     }' \
-#     http://<FQDN>:27080/dev/l2_ip_data
+
     # get current time
     nowTime = str(datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S'))
     test_number = nowTime + '-test_business_type-' + str(random.randint(1, 9999999))
@@ -77,12 +47,12 @@ def test_post(client):
             "dst_port":"20002"
         },
         "file_path":"test_file_path",
-        "input_user":"test_input_user",
+        "input_user":"test_kowalski",
         "input_time": nowTime
     }
 
     chkresponse = client.post(
-        url_for('api.l2_ip'), 
+        url_for('api.l2_ip_data'), 
         json = test_post_data
     )
     # Note:

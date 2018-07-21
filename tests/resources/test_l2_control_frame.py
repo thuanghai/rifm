@@ -5,13 +5,13 @@ import pytest
 import json
 
 from flask import url_for
-from src.resources.l3_email import Email
+from src.resources.l2_ip_data import IpData
 
 def test_get(client):
     """
     Test client get method for null
     """
-    chkresponse = client.get(url_for('api.l3_email'))
+    chkresponse = client.get(url_for('api.l2_control_frame'))
     assert chkresponse.status_code == 200
 
 def test_post(client):
@@ -21,22 +21,15 @@ def test_post(client):
     # get current time
     nowTime = str(datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S'))
     test_number = nowTime + '-test_business_type-' + str(random.randint(1, 9999999))
-    test_from = "sendname@dev.org"
-    test_to = "recv@dev.org"
-    test_title = 'test-email-title'
-    test_file_path = "/vol/data/test_file"
     test_post_data = {
         'number' : test_number,
-        'from': test_from,
-        'to': test_to,
-        'title': test_title,
-        'file_path': test_file_path,
-        'input_user': 'test_kowalski',
-        'input_time': nowTime
+        'type': '0xDD',
+        "file_path":"test_file_path",
+        "input_user":"test_kowalski",
+        "input_time": nowTime
     }
-
     chkresponse = client.post(
-        url_for('api.l3_email'), 
+        url_for('api.l2_control_frame'), 
         json = test_post_data
     )
     # Note:

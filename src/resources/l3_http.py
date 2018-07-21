@@ -47,6 +47,15 @@ from src.common import dbcrud
 
 class Http(Resource):
 
+    # | DB Field Name | Description                            |
+    # | ------------- | -------------------------------------- |
+    # | number        | <datatime+business_type+serial_number> |
+    # | type          | <file_type>                            |
+    # | title         | <page_title>                           |
+    # | file_path     | <file_storage_path>                    |
+    # | input_user    | <input_user_name>                      |
+    # | input_time    | <input_date_time>                      |
+
     def __init__(self, **kwargs):
         self.mongo_cfg = kwargs['mongo_cfg']
         self.db_name = 'dev'

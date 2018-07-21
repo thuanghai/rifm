@@ -31,7 +31,7 @@ def test_post(client):
         'to': test_to,
         'title': test_title,
         'file_path': test_file_path,
-        'input_user': 'input_usr_name',
+        'input_user': 'test_kowalski',
         'input_time': nowTime
     }
 
