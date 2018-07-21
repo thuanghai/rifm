@@ -1,9 +1,3 @@
-'''
- * @Author: mikey.zhaopeng 
- * @Date: 2018-05-22 17:45:39 
- * @Last Modified by:   mikey.zhaopeng 
- * @Last Modified time: 2018-05-22 17:45:39 
-'''
 # -*- coding: utf-8 -*-
 import os
 
@@ -19,6 +13,7 @@ from flask_restful import (
 # from config import load_config
 from src.config import load_config
 from src.resources import (
+    l1_signal_element,
     l2_control_frame,
     l2_ip_data,
     l3_http,
@@ -42,6 +37,14 @@ def create_app(test_config=None):
     api_bp = Blueprint('api', __name__)
     api = Api(api_bp)
 
+    # set route for 'l1_signal_element' function
+    api.add_resource(
+        l1_signal_element.SignalElement,
+        '/dev/l1_signal_element',
+        '/dev/l1_signal_element/<string:id>',
+        endpoint='l1_signal_element',
+        resource_class_kwargs={'mongo_cfg': mongo_cfg}
+    )
     # set route for 'l2_control_frame' function
     api.add_resource(
         l2_control_frame.ControlFrame,
