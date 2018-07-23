@@ -20,7 +20,7 @@ def test_post(client):
     """
     # get current time
     nowTime = str(datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S'))
-    test_number = nowTime + '-test_business_type-' + str(random.randint(1, 9999999))
+    test_number = nowTime + '_type_' + str(random.randint(1, 9999999))
     test_from = "sendname@dev.org"
     test_to = "recv@dev.org"
     test_title = 'test-email-title'

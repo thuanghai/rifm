@@ -19,14 +19,14 @@ def test_post(client):
     Test client post method for insert one document
     """
     # get current time
-    nowTime = str(datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S'))
-    test_number = nowTime + '-test_business_type-' + str(random.randint(1, 9999999))
+    nowTime = str(datetime.datetime.now().strftime('%Y%m%d_%H-M-%S'))
+    test_number = nowTime + '_type_' + str(random.randint(1, 9999999))
     test_from = "sendname@dev.org"
     test_to = "recv@dev.org"
     test_title = 'test-email-title'
     test_file_path = "/vol/data/test_file"
     test_post_data = {
-        'number' : test_number,
+        '_id' : test_number,
         'from': test_from,
         'to': test_to,
         'title': test_title,

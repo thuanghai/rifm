@@ -37,7 +37,7 @@ def test_post(client):
     # | input_time       | <input_date_time>                                |
     # get current time
     nowTime = str(datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S'))
-    test_number = nowTime + '-test_business_type-' + str(random.randint(1, 9999999))
+    test_number = nowTime + '_type_' + str(random.randint(1, 9999999))
     test_post_data = {
         'number':test_number,
         'satellite':'test_satellite_name',
