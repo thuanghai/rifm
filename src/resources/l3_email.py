@@ -15,48 +15,48 @@ from bson.json_util import dumps
 from werkzeug import exceptions
 from src.common import dbcrud
 
-post_parser = reqparse.RequestParser()
+# post_parser = reqparse.RequestParser()
 
-post_parser.add_argument(
-    'title',
-    dest='title',
-    required=True,
-    help='The title of mail'
-)
+# post_parser.add_argument(
+#     'title',
+#     dest='title',
+#     required=True,
+#     help='The title of mail'
+# )
 
-post_parser.add_argument(
-    'from',
-    dest='from',
-    help='Mail send from'
-)
+# post_parser.add_argument(
+#     'from',
+#     dest='from',
+#     help='Mail send from'
+# )
 
-post_parser.add_argument(
-    'to',
-    dest='to',
-    help='Mail send to'
-)
+# post_parser.add_argument(
+#     'to',
+#     dest='to',
+#     help='Mail send to'
+# )
 
-post_parser.add_argument(
-    'attachment_category',
-    dest='attachment_category',
-    help='Category of mail attachment'
-)
+# post_parser.add_argument(
+#     'attachment_category',
+#     dest='attachment_category',
+#     help='Category of mail attachment'
+# )
 
-person_fields = {
-    'id': fields.Integer,
-    'title': fields.String,
-    'from': fields.String,
-    'to': fields.String,
-    'attacthment_category': fields.String,
-    'date_created': fields.DateTime,
-    'date_updated': fields.DateTime,
-}
+# person_fields = {
+#     'id': fields.Integer,
+#     'title': fields.String,
+#     'from': fields.String,
+#     'to': fields.String,
+#     'attacthment_category': fields.String,
+#     'date_created': fields.DateTime,
+#     'date_updated': fields.DateTime,
+# }
 
 class Email(Resource):
 
     # | DB Field Name   | Description                            |
     # | --------------- | -------------------------------------- |
-    # | number          | <datatime+business_type+serial_number> |
+    # | _id             | <datatime+business_type+serial_number> |
     # | title           | <email_title>                          |
     # | from            | <from_address>                         |
     # | to              | <to_address>                           |

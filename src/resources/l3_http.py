@@ -13,7 +13,12 @@ from flask_restful import (
 )
 from bson.json_util import dumps
 from werkzeug import exceptions
-from src.common import dbcrud
+
+from src.common import (
+    datetime,
+    dbcrud,
+    dtcheck
+)
 
 # post_parser = reqparse.RequestParser()
 
@@ -49,7 +54,7 @@ class Http(Resource):
 
     # | DB Field Name | Description                            |
     # | ------------- | -------------------------------------- |
-    # | number        | <datatime+business_type+serial_number> |
+    # | _id           | <datatime+business_type+serial_number> |
     # | type          | <file_type>                            |
     # | title         | <page_title>                           |
     # | file_path     | <file_storage_path>                    |
@@ -66,7 +71,9 @@ class Http(Resource):
         if request.method != 'POST':
             abort(405)
         
-        data = request.get_json()
+        # data = request.get_json()
+        data = dtcheck.check_create(request.get_json())
+        
         # write to database
         # self.mongo_cfg[0] is mongodb server host
         # self.mongo_cfg[1] is mongodb server port
@@ -79,3 +86,38 @@ class Http(Resource):
             return '', 201
         else:
             return '', 417
+
+    def get(self, data_id):
+        if data_id is None:
+            # TODO: return list of data
+            pass
+        else:
+            # TODO: expose a single data
+            pass
+
+    def put(self, data_id):
+        """
+        Update a single record
+        """
+        if request.method != 'PUT':
+            abort(405)
+
+        # data = request.get_json()
+        data = dtcheck.check_modify(request.get_json())
+        # write to database
+        # self.mongo_cfg[0] is mongodb server host
+        # self.mongo_cfg[1] is mongodb server port
+        result = dbcrud.update_one(
+            self.mongo_cfg,
+            self.db_name,
+            self.collection_name,
+            data,
+            data_id)
+        if result.acknowledged == True:
+            return '', 200
+        else:
+            return '', 417
+
+    def delete(self, data_id):
+        # TODO: delete a single data
+        pass

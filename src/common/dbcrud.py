@@ -45,23 +45,25 @@ def find_one(
 #     # return clt.find_one({'_id': ObjectId(id)})
     pass
 
-def update(
-    db_name: dict(type=str, help='MongoDB database name'),
+def update_one(
+    mongo_cfg: dict(type=tuple, help='MongoDB host and port'),
+    db_name: dict(type=str, help='MongoDB database name'), 
     collection_name: dict(type=str, help='MongoDB collection name'), 
-    data,
-    id=None
+    data: dict(type=str, help='String for JSON data expression'),
+    data_id: dict(type=str, help='MongoDB document id')
 ):
-#     # # Get database
-#     # db = db_connect(db_name)
-#     # # Get collection
-#     # clt = db[collection_name]
-#     # if id:
-#     #     # Update document
-#     #     return clt.update_one({'_id:' + ObjectId(id)}, data)
-#     # else:
-#     #     # Update documents all
-#     #     return clt.update_many({'_id:' + ObjectId(id)}, data)
-    pass
+    """
+    Update one document field
+    """
+    # Get database
+    db = db_connect(mongo_cfg, db_name)
+    # Get collection
+    clt = db[collection_name]
+    if id:
+        # Update document
+        # return clt.update_one({'_id:' + ObjectId(id)}, data)
+        # return clt.update_one({"_id": id}, {"$set":data})
+        return clt.update_one({"_id": data_id}, data)
 
 def delete(
     db_name: dict(type=str, help='MongoDB database name'),

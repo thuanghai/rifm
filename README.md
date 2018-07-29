@@ -21,7 +21,7 @@
 
 | DB Field Name    | Description                                      |
 | ---------------- | ------------------------------------------------ |
-| number           | <datatime+business_type+serial_number>           |
+| _id              | <datatime+business_type+serial_number>           |
 | satellite        | <satellite_id>                                   |
 | antenna_id       | <antenna_id_value>                               |
 | polarity         | <polarity_method>                                |
@@ -66,7 +66,7 @@ curl -X POST \
 
 | DB Field Name | Description                                          |
 | ------------- | ---------------------------------------------------- |
-| number        | <datatime+business_type+serial_number>               |
+| _id           | <datatime+business_type+serial_number>               |
 | type          | <frame_type> (exp.:0xDC,0xDD,0x40,6 bytes frame,...) |
 | file_path     | <file_storage_path>                                  |
 | input_user    | <input_user_name>                                    |
@@ -91,7 +91,7 @@ curl -X POST \
 
 | DB Field Name |          | Description                            |
 | ------------- | -------- | -------------------------------------- |
-| number        |          | <datatime+business_type+serial_number> |
+| _id           |          | <datatime+business_type+serial_number> |
 | encrypted     |          | <y/n>                                  |
 | 1st_layer_ip  | protocol | <network_protocol>                     |
 |               | src_ip   | <src_ip>                               |
@@ -152,7 +152,7 @@ curl -X POST \
 
 | DB Field Name   | Description                            |
 | --------------- | -------------------------------------- |
-| number          | <datatime+business_type+serial_number> |
+| _id             | <datatime+business_type+serial_number> |
 | title           | <email_title>                          |
 | from            | <from_address>                         |
 | to              | <to_address>                           |
@@ -162,6 +162,8 @@ curl -X POST \
 | input_time      | <input_date_time>                      |
 
 **Usage:**
+
+1. Create one document using 'POST'
 
 ```(cmd)
 curl -X POST \
@@ -180,27 +182,67 @@ curl -X POST \
 
 ### **HTTP (3rd Level)**
 
-| DB Field Name | Description                            |
-| ------------- | -------------------------------------- |
-| number        | <datatime+business_type+serial_number> |
-| type          | <file_type>                            |
-| title         | <page_title>                           |
-| file_path     | <file_storage_path>                    |
-| input_user    | <input_user_name>                      |
-| input_time    | <input_date_time>                      |
+| Field (L1) | Field (L2) | Description                        |
+| ---------- | ---------- | ---------------------------------- |
+| _id        |            | <time+business_type+serial_number> |
+| src_id     |            | <ip_data_id>                       |
+| title      |            | <http_page_title>                       |
+| type       |            | <http_file_type>                        |
+| path       |            | <file_storage_path>                |
+| create     | user       | <create_user_name>                 |
+|            | time       | <create_date_time>                 |
+| modify     | user       | <last_modify_user>                 |
+|            | time       | <last_modify_time>                 |
 
 **Usage:**
+
+- Create one document using 'POST'.
 
 ```(cmd)
 curl -X POST \
     -H "Content-Type:application/json" \
     -d '{
-        "number":"<time+business_type+sn>",
-        "type":"<file_type>",
-        "title":"<page_title>",
-        "file_path":"<file_storage_path>"
-        "input_user":"<input_user_name>",
-        "input_time":"<input_date_time>"
+        "_id":"<time+business_type+serial_number>",
+        "title":"<http_page_title>",
+        "type":"<http_file_type>",
+        "path":"<file_storage_path>",
+        "create": {
+            "user":"<input_user_name>",
+            "time":"<input_date_time>"
+        }
     }' \
     http://<FQDN>:27080/dev/l3_http
 ```
+
+- Update one document using 'PUT'
+
+```(cmd)
+curl -X PUT \
+    -H "Content-Type:application/json" \
+    -d '{
+        "$set": {
+            "path":"<update_file_storage_path>",
+            "modify.user":"<modify_user_name>"
+        }
+    }' \
+    http://<FQDN>:27080/dev/l3_http/<string:_id>
+```
+
+or
+
+```(cmd)
+curl -X PUT \
+    -H "Content-Type:application/json" \
+    -d '{
+        "$set": {
+            "title":"<update_http_page_title>",
+            "type":"<update_http_file_type>",
+            "path":"<update_file_storage_path>",
+            "create.user":"<update_user_name>",
+            "modify.user":"<modify_user_name>"
+        }
+    }' \
+    http://<FQDN>:27080/dev/l3_http/<string:_id>
+```
+
+Note: You can update one or more fields at a time. But update modify user always.

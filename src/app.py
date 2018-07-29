@@ -41,7 +41,7 @@ def create_app(test_config=None):
     api.add_resource(
         l1_signal_element.SignalElement,
         '/dev/l1_signal_element',
-        '/dev/l1_signal_element/<string:id>',
+        '/dev/l1_signal_element/<string:data_id>',
         endpoint='l1_signal_element',
         resource_class_kwargs={'mongo_cfg': mongo_cfg}
     )
@@ -49,7 +49,7 @@ def create_app(test_config=None):
     api.add_resource(
         l2_control_frame.ControlFrame,
         '/dev/l2_control_frame',
-        '/dev/l2_control_frame/<string:id>',
+        '/dev/l2_control_frame/<string:data_id>',
         endpoint='l2_control_frame',
         resource_class_kwargs={'mongo_cfg': mongo_cfg}
     )
@@ -57,7 +57,7 @@ def create_app(test_config=None):
     api.add_resource(
         l2_ip_data.IpData,
         '/dev/l2_ip_data',
-        '/dev/l2_ip_data/<string:id>',
+        '/dev/l2_ip_data/<string:data_id>',
         endpoint='l2_ip_data',
         resource_class_kwargs={'mongo_cfg': mongo_cfg}
     )
@@ -65,7 +65,7 @@ def create_app(test_config=None):
     api.add_resource(
         l3_http.Http,
         '/dev/l3_http',
-        '/dev/l3_http/<string:id>',
+        '/dev/l3_http/<string:data_id>',
         endpoint='l3_http',
         resource_class_kwargs={'mongo_cfg': mongo_cfg}
     )
@@ -73,10 +73,15 @@ def create_app(test_config=None):
     api.add_resource(
         l3_email.Email,
         '/dev/l3_email',
-        '/dev/l3_email/<string:id>',
+        '/dev/l3_email/<string:data_id>',
         endpoint='l3_email',
         resource_class_kwargs={'mongo_cfg': mongo_cfg}
     )
+    # Note:
+    # 'Endpoints':
+    # Many times in an API, your resource will have multiple URLs.
+    # You can pass multiple URLs to the 'add_resource()' method on the Api object. 
+    # Each one will be routed to your 'Resource'
 
     app.register_blueprint(api_bp)
 
