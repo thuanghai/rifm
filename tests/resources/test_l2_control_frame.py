@@ -48,9 +48,8 @@ def test_post(client):
     """
     Test client post method for insert one document
     """
-    # get current time
     test_src_id = str(get_utc_datetime()) + '_src-type_' + 'src-serial_number'
-    test_id = str(get_utc_datetime()) + '_http_type_' + str(random.randint(1, 9999999))
+    test_id = str(get_utc_datetime()) + '_control_frame_type_' + str(random.randint(1, 9999999))
     test_post_data = {
         '_id' : test_id,
         'src_id':test_src_id,

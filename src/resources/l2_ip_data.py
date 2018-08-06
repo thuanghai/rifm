@@ -66,7 +66,7 @@ class IpData(Resource):
             self.db_name,
             self.collection_name,
             data)
-        if result.acknowledged == True:
+        if result == True:
             return '', 201
         else:
             return '', 417
@@ -99,7 +99,7 @@ class IpData(Resource):
             self.collection_name,
             data,
             data_id)
-        if result.acknowledged == True:
+        if result == True:
             return '', 200
         else:
             return '', 417

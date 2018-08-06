@@ -59,11 +59,14 @@ def update_one(
     db = db_connect(mongo_cfg, db_name)
     # Get collection
     clt = db[collection_name]
-    if id:
-        # Update document
-        # return clt.update_one({'_id:' + ObjectId(id)}, data)
-        # return clt.update_one({"_id": id}, {"$set":data})
-        return clt.update_one({"_id": data_id}, data)
+    # Update and check result
+    result = clt.update_one({"_id": data_id}, data)
+    if (result.acknowledged == True) \
+        and (result.matched_count == 1) \
+        and (result.modified_count == 1):
+        return True
+    else:
+        return False
 
 def delete(
     db_name: dict(type=str, help='MongoDB database name'),

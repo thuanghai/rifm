@@ -21,31 +21,35 @@
 
 **Collection Design:**
 
-| DB Field Name    | Description                                      |
-| ---------------- | ------------------------------------------------ |
-| _id              | <datatime+business_type+serial_number>           |
-| satellite        | <satellite_id>                                   |
-| antenna_id       | <antenna_id_value>                               |
-| polarity         | <polarity_method>                                |
-| frequency        | <frequency_value>                                |
-| modulation_type  | <modulation_type_value>                          |
-| modulation_rate  | <modulation_rate_value>                          |
-| channel_coding   | <channel_coding>                                 |
-| data_source_type | <data_source_type> (exp.: master/vsat station)   |
-| demodulator_id   | <demodulator_id_value>                           |
-| time_stamp       | <time_stamp_value>                               |
-| frame_type       | <frame_type_value> (exp.: control frame/ip data) |
-| file_path        | <file_storage_path>                              |
-| input_user       | <input_user_name>                                |
-| input_time       | <input_date_time>                                |
+| Field(L1)        | Field(L2) | Description                                      |
+| ---------------- | --------- | ------------------------------------------------ |
+| _id              |           | <datatime+business_type+serial_number>           |
+| satellite        |           | <satellite_id>                                   |
+| antenna_id       |           | <antenna_id_value>                               |
+| polarity         |           | <polarity_method>                                |
+| frequency        |           | <frequency_value>                                |
+| modulation_type  |           | <modulation_type_value>                          |
+| modulation_rate  |           | <modulation_rate_value>                          |
+| channel_coding   |           | <channel_coding>                                 |
+| data_source_type |           | <data_source_type> (exp.: master/vsat station)   |
+| demodulator_id   |           | <demodulator_id_value>                           |
+| time_stamp       |           | <time_stamp_value>                               |
+| frame_type       |           | <frame_type_value> (exp.: control frame/ip data) |
+| storage_path     |           | <file_storage_path>                              |
+| create           | user      | <input_user_name>                                |
+|                  | time      | <create_date_time>                               |
+| modify           | user      | <modify_user_name>                               |
+|                  | time      | <modify_date_time>                               |
 
 **Usage:**
+
+- Create one document using 'POST'.
 
 ```(cmd)
 curl -X POST \
     -H "Content-Type:application/json" \
     -d '{
-        "number":"<time+business_type+sn>",
+        "_id":"<time+business_type+sn>",
         "satellite":"<satellite_id>",
         "antenna_id":"<antenna_id>",
         "polarity":"<polarity_method>",
@@ -57,12 +61,50 @@ curl -X POST \
         "demodulator_id":"<demodulator_id_value>",
         "time_stamp":"<time_stamp_value>",
         "frame_type":"<frame_type_value>",
-        "file_path":"<file_storage_path>",
-        "input_user":"<input_user_name>",
-        "input_time":"<input_date_time>"
+        "storage_path":"<file_storage_path>",
+        "create": {
+            "user":"<create_user_name>"
+        }
     }' \
     http://<FQDN>:27080/dev/l1_signal_element
 ```
+
+- Update some fields in one document using 'PUT'
+
+```(cmd)
+curl -X PUT \
+    -H "Content-Type:application/json" \
+    -d '{
+        "$set": {
+            "satellite":"<update_satellite_id>",
+            "channel_coding":"<update_channel_coding>",
+            "frame_type":"<update_frame_type_value>",
+            "storage_path":"<update_file_storage_path>",
+            "modify.user":"<modify_user_name>"
+        }
+    }' \
+    http://<FQDN>:27080/dev/l1_signal_element/<string:_id>
+```
+
+Note: RIFM will add create datetime automatically.
+
+or
+
+```(cmd)
+curl -X PUT \
+    -H "Content-Type:application/json" \
+    -d '{
+        "$set": {
+            "satellite":"<update_satellite_id>",
+            "channel_coding":"<update_channel_coding>",
+            "frame_type":"<update_frame_type_value>",
+            "storage_path":"<update_file_storage_path>"
+        }
+    }' \
+    http://<FQDN>:27080/dev/l1_signal_element/<string:_id>
+```
+
+Note: You can update one or more fields at a time. But update modify user always.
 
 ### **Control Frame (2nd Level)**
 
@@ -71,6 +113,7 @@ curl -X POST \
 | Field(L1)    | Field(L2) | Description                                          |
 | ------------ | --------- | ---------------------------------------------------- |
 | _id          |           | <datatime+business_type+serial_number>               |
+| src_id       |           | <source_data_id(l1_signal_element id)>               |
 | type         |           | <frame_type> (exp.:0xDC,0xDD,0x40,6 bytes frame,...) |
 | storage_path |           | <file_storage_path>                                  |
 | create       | name      | <create_user_name>                                   |
@@ -87,6 +130,7 @@ curl -X POST \
     -H "Content-Type:application/json" \
     -d '{
         "_id":"<time+business_type+sn>",
+        "src_id":"<source_id_data(Level1)>",
         "type":"<frame_type>",
         "storage_path":"<file_storage_path>",
         "create": {
@@ -108,7 +152,7 @@ curl -X PUT \
             "modify.user":"<modify_user_name>"
         }
     }' \
-    http://<FQDN>:27080/dev/l3_email/<string:_id>
+    http://<FQDN>:27080/dev/l2_control_frame/<string:_id>
 ```
 
 Note: RIFM will add create datetime automatically.
@@ -124,7 +168,7 @@ curl -X PUT \
             "storage_path":"<update_file_storage_path>"
         }
     }' \
-    http://<FQDN>:27080/dev/l3_email/<string:_id>
+    http://<FQDN>:27080/dev/l2_control_frame/<string:_id>
 ```
 
 Note: You can update one or more fields at a time. But update modify user always.
@@ -136,6 +180,7 @@ Note: You can update one or more fields at a time. But update modify user always
 | Field(L1)    | Field(L2) | Description                            |
 | ------------ | --------- | -------------------------------------- |
 | _id          |           | <datatime+business_type+serial_number> |
+| src_id       |           | <source_data_id(l1_signal_element id)> |
 | encrypted    |           | <y/n>                                  |
 | 1st_layer_ip | protocol  | <network_protocol>                     |
 |              | src_ip    | <src_ip>                               |
@@ -167,6 +212,7 @@ curl -X POST \
     -H "Content-Type:application/json" \
     -d '{
         "_id":"<time+business_type+sn>",
+        "src_id":"<source_id_data(Level1)>",
         "encrypted":"<y/n>",
         "1st_layer_ip": {
             "protocol":"<network_protocol>",
@@ -213,7 +259,7 @@ curl -X PUT \
             "modify.user":"<modify_user_name>"
         }
     }' \
-    http://<FQDN>:27080/dev/l3_email/<string:_id>
+    http://<FQDN>:27080/dev/l2_ip_data/<string:_id>
 ```
 
 Note: RIFM will add create datetime automatically.
@@ -231,7 +277,7 @@ curl -X PUT \
             "storage_path":"<update_file_storage_path>",
         }
     }' \
-    http://<FQDN>:27080/dev/l3_email/<string:_id>
+    http://<FQDN>:27080/dev/l2_ip_data/<string:_id>
 ```
 
 Note: You can update one or more fields at a time. But update modify user always.
@@ -243,6 +289,7 @@ Note: You can update one or more fields at a time. But update modify user always
 | Field(L1)       | Field(L2) | Description                            |
 | --------------- | --------- | -------------------------------------- |
 | _id             |           | <datatime+business_type+serial_number> |
+| src_id          |           | <source_data_id(l2_ip_data id)>        |
 | title           |           | <email_title>                          |
 | from            |           | <from_address>                         |
 | to              |           | <to_address>                           |
@@ -262,6 +309,7 @@ curl -X POST \
     -H "Content-Type:application/json" \
     -d '{
         "_id":"<time+business_type+sn>",
+        "src_id":"<source_id_data(Level2)>",
         "from":"<from_addresss>",
         "to":"<to_address>",
         "title":"<email_title>",
@@ -319,7 +367,7 @@ Note: You can update one or more fields at a time. But update modify user always
 | Field (L1)   | Field (L2) | Description                        |
 | ------------ | ---------- | ---------------------------------- |
 | _id          |            | <time+business_type+serial_number> |
-| src_id       |            | <ip_data_id>                       |
+| src_id       |            | <source_data_id(l2_ip_data id)>    |
 | title        |            | <http_page_title>                  |
 | type         |            | <http_file_type>                   |
 | storage_path |            | <file_storage_path>                |
@@ -337,6 +385,7 @@ curl -X POST \
     -H "Content-Type:application/json" \
     -d '{
         "_id":"<time+business_type+serial_number>",
+        "src_id":"<source_id_data(Level2)>",
         "title":"<http_page_title>",
         "type":"<http_file_type>",
         "storage_path":"<file_storage_path>",
