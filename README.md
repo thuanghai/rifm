@@ -19,6 +19,8 @@
 
 ### **Signal Element (1st Level)**
 
+**Collection Design:**
+
 | DB Field Name    | Description                                      |
 | ---------------- | ------------------------------------------------ |
 | _id              | <datatime+business_type+serial_number>           |
@@ -64,30 +66,72 @@ curl -X POST \
 
 ### **Control Frame (2nd Level)**
 
-| DB Field Name | Description                                          |
-| ------------- | ---------------------------------------------------- |
-| _id           | <datatime+business_type+serial_number>               |
-| type          | <frame_type> (exp.:0xDC,0xDD,0x40,6 bytes frame,...) |
-| file_path     | <file_storage_path>                                  |
-| input_user    | <input_user_name>                                    |
-| input_time    | <input_date_time>                                    |
+**Collection Design:**
+
+| Field(L1)    | Field(L2) | Description                                          |
+| ------------ | --------- | ---------------------------------------------------- |
+| _id          |           | <datatime+business_type+serial_number>               |
+| type         |           | <frame_type> (exp.:0xDC,0xDD,0x40,6 bytes frame,...) |
+| storage_path |           | <file_storage_path>                                  |
+| create       | name      | <create_user_name>                                   |
+|              | time      | <create_date_time>                                   |
+| modify       | name      | <modify_date_time>                                   |
+|              | time      | <modify_date_time>                                   |
 
 **Usage:**
+
+- Create one document using 'POST'.
 
 ```(cmd)
 curl -X POST \
     -H "Content-Type:application/json" \
     -d '{
-        "number":"<time+business_type+sn>",
+        "_id":"<time+business_type+sn>",
         "type":"<frame_type>",
-        "file_path":"<file_storage_path>",
-        "input_user":"<input_user_name>",
-        "input_time":"<input_date_time>",
+        "storage_path":"<file_storage_path>",
+        "create": {
+            "user":"<create_user_name>"
+        }
     }' \
     http://<FQDN>:27080/dev/l2_control_frame
 ```
 
+- Update some fields in one document using 'PUT'
+
+```(cmd)
+curl -X PUT \
+    -H "Content-Type:application/json" \
+    -d '{
+        "$set": {
+            "type":"<update_frame_type>",
+            "storage_path":"<update_file_storage_path>",
+            "modify.user":"<modify_user_name>"
+        }
+    }' \
+    http://<FQDN>:27080/dev/l3_email/<string:_id>
+```
+
+Note: RIFM will add create datetime automatically.
+
+or
+
+```(cmd)
+curl -X PUT \
+    -H "Content-Type:application/json" \
+    -d '{
+        "$set": {
+            "type":"<update_frame_type>",
+            "storage_path":"<update_file_storage_path>"
+        }
+    }' \
+    http://<FQDN>:27080/dev/l3_email/<string:_id>
+```
+
+Note: You can update one or more fields at a time. But update modify user always.
+
 ### **IP Data (2nd Level)**
+
+**Collection Design:**
 
 | Field(L1)    | Field(L2) | Description                            |
 | ------------ | --------- | -------------------------------------- |
@@ -115,6 +159,8 @@ curl -X POST \
 |              | time      | <modify_date_time>                     |
 
 **Usage:**
+
+- Create one document using 'POST'.
 
 ```(cmd)
 curl -X POST \
@@ -153,7 +199,46 @@ curl -X POST \
 
 Note: RIFM will add create datetime automatically.
 
+- Update some fields in one document using 'PUT'
+
+```(cmd)
+curl -X PUT \
+    -H "Content-Type:application/json" \
+    -d '{
+        "$set": {
+            "1st_layer_ip.protocol":"<network_protocol>",
+            "1st_layer_ip.src_ip":"<update_ip_address>",
+            "1st_layer_ip.dst_ip":"<update_ip_address>",
+            "storage_path":"<update_file_storage_path>",
+            "modify.user":"<modify_user_name>"
+        }
+    }' \
+    http://<FQDN>:27080/dev/l3_email/<string:_id>
+```
+
+Note: RIFM will add create datetime automatically.
+
+or
+
+```(cmd)
+curl -X PUT \
+    -H "Content-Type:application/json" \
+    -d '{
+        "$set": {
+            "3rd_layer_ip.protocol":"<network_protocol>",
+            "3rd_layer_ip.src_ip":"<update_ip_address>",
+            "3rd_layer_ip.dst_ip":"<update_ip_address>",
+            "storage_path":"<update_file_storage_path>",
+        }
+    }' \
+    http://<FQDN>:27080/dev/l3_email/<string:_id>
+```
+
+Note: You can update one or more fields at a time. But update modify user always.
+
 ### **E-mail (3rd Level)**
+
+**Collection Design:**
 
 | Field(L1)       | Field(L2) | Description                            |
 | --------------- | --------- | -------------------------------------- |
@@ -188,15 +273,18 @@ curl -X POST \
     http://<FQDN>:27080/dev/l3_email
 ```
 
-Note: RIFM will add create datetime automatically.
+Note: RIFM will add create/modify datetime automatically.
 
-- Update one document using 'PUT'
+- Update some fields in one document using 'PUT'
 
 ```(cmd)
 curl -X PUT \
     -H "Content-Type:application/json" \
     -d '{
         "$set": {
+            "title":"<update_email_title>",
+            "from":"<update_from_address>",
+            "to":"<update_to_address>",
             "storage_path":"<update_file_storage_path>",
             "modify.user":"<modify_user_name>"
         }
@@ -204,7 +292,7 @@ curl -X PUT \
     http://<FQDN>:27080/dev/l3_email/<string:_id>
 ```
 
-Note: RIFM will add create datetime automatically.
+Note: RIFM will add create/modify datetime automatically.
 
 or
 
@@ -217,8 +305,6 @@ curl -X PUT \
             "from":"<update_email_from_address>",
             "to":"<update_email_to_address>",
             "stroage_path":"<update_file_storage_path>",
-            "create.user":"<update_user_name>",
-            "modify.user":"<modify_user_name>"
         }
     }' \
     http://<FQDN>:27080/dev/l3_email/<string:_id>
@@ -227,6 +313,8 @@ curl -X PUT \
 Note: You can update one or more fields at a time. But update modify user always.
 
 ### **HTTP (3rd Level)**
+
+**Collection Design:**
 
 | Field (L1)   | Field (L2) | Description                        |
 | ------------ | ---------- | ---------------------------------- |
@@ -259,9 +347,9 @@ curl -X POST \
     http://<FQDN>:27080/dev/l3_http
 ```
 
-Note: RIFM will add create datetime automatically.
+Note: RIFM will add create/modify datetime automatically.
 
-- Update one document using 'PUT'
+- Update some fields in one document using 'PUT'
 
 ```(cmd)
 curl -X PUT \
