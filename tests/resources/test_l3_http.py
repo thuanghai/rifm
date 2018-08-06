@@ -47,18 +47,14 @@ def test_post(client):
     """
     Test client post method for insert one document
     """
-    # get current time
     test_src_id = str(get_utc_datetime()) + '_src-type_' + 'src-serial_number'
     test_id = str(get_utc_datetime()) + '_http_type_' + str(random.randint(1, 9999999))
-    test_title = 'test-http-title'
-    test_type = 'test-http-file-type'
-    test_path = "/vol/data/test_http_file"
     test_post_data = {
-        '_id' : test_id,
-        'src_id': test_src_id,
-        'title': test_title,
-        'type': test_type,
-        'storage_path': test_path,
+        '_id':test_id,
+        'src_id':test_src_id,
+        'title':'test-http-title',
+        'type':'test-http-file-type',
+        'storage_path':'/vol/data/test_http_file',
         'create': {
             'user':'test'
         }
@@ -80,10 +76,19 @@ def test_put(client):
     Test client put method for update one document
     """
     # set update document '_id'
-    test_update_id = "2018-07-29 14:27:15.199516_http_type_3235623"
+    test_update_id = '2018-07-29 14:27:15.199516_http_type_3235623'
     test_put_data = {
-        "$set": {'title':'test_update_title_0729', 'type':'test_update_type_0729', 'modify.user':'kowalski'}
-        # "$set": {'title':'test_update_title', 'type':'test_update_type'}
+        # # modify record with modify information like 'modify.user'.
+        # '$set': {
+        #     'title':'test_update_title_0729',
+        #     'type':'test_update_type_0729',
+        #     'modify.user':'kowalski'
+        #     }
+        # modify record without modify information.
+        '$set': {
+            'title':'test_update_title',
+            'type':'test_update_type'
+            }
     }
     # You can add some fields directly
     chkresponse = client.put(

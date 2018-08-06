@@ -48,20 +48,15 @@ def test_post(client):
     """
     Test client post method for insert one document
     """
-    # get current time
     test_src_id = str(get_utc_datetime()) + '_src-type_' + 'src-serial_number'
     test_id = str(get_utc_datetime()) + '_email_type_' + str(random.randint(1, 9999999))
-    test_from = "sendname@dev.org"
-    test_to = "recv@dev.org"
-    test_title = 'test-email-title'
-    test_file_path = "/vol/data/test_file"
     test_post_data = {
-        '_id' : test_id,
-        'src_id': test_src_id,
-        'from': test_from,
-        'to': test_to,
-        'title': test_title,
-        'storage_path': test_file_path,
+        '_id':test_id,
+        'src_id':test_src_id,
+        'from':'sendname@dev.org',
+        'to':'recv@dev.org',
+        'title':'test-email-title',
+        'storage_path':'/vol/data/email/test_email_file',
         'create': {
             'user':'test'
         }
@@ -83,10 +78,19 @@ def test_put(client):
     Test client put method for update one document
     """
     # set update document '_id'
-    test_update_id = "2018-08-06 03:17:46.099849_email_type_6035886"
+    test_update_id = '2018-08-06 03:17:46.099849_email_type_6035886'
     test_put_data = {
-        "$set": {'title':'test_update_title_0806', 'type':'test_update_type_0806', 'modify.user':'kowalski'}
-        # "$set": {'title':'test_update_title', 'type':'test_update_type'}
+        # # modify record with modify information like 'modify.user'.
+        # '$set':{
+        #     'title':'test_update_title_0806',
+        #     'type':'test_update_type_0806',
+        #     'modify.user':'update_user'
+        #     }
+        # modify record without modify information.
+        "$set":{
+            'title':'test_update_title',
+            'type':'test_update_type'
+            }
     }
     # You can add some fields directly
     chkresponse = client.put(

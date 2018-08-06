@@ -89,28 +89,30 @@ curl -X POST \
 
 ### **IP Data (2nd Level)**
 
-| DB Field Name |          | Description                            |
-| ------------- | -------- | -------------------------------------- |
-| _id           |          | <datatime+business_type+serial_number> |
-| encrypted     |          | <y/n>                                  |
-| 1st_layer_ip  | protocol | <network_protocol>                     |
-|               | src_ip   | <src_ip>                               |
-|               | dst_ip   | <dst_ip>                               |
-|               | src_port | <src_port>                             |
-|               | dst_port | <dst_port>                             |
-| 2nd_layer_ip  | protocol | <network_protocol>                     |
-|               | src_ip   | <src_ip>                               |
-|               | dst_ip   | <dst_ip>                               |
-|               | src_port | <src_port>                             |
-|               | dst_port | <dst_port>                             |
-| 3rd_layer_ip  | protocol | <network_protocol>                     |
-|               | src_ip   | <src_ip>                               |
-|               | dst_ip   | <dst_ip>                               |
-|               | src_port | <src_port>                             |
-|               | dst_port | <dst_port>                             |
-| file_path     |          | <file_storage_path>                    |
-| input_user    |          | <input_user_name>                      |
-| input_time    |          | <input_date_time>                      |
+| Field(L1)    | Field(L2) | Description                            |
+| ------------ | --------- | -------------------------------------- |
+| _id          |           | <datatime+business_type+serial_number> |
+| encrypted    |           | <y/n>                                  |
+| 1st_layer_ip | protocol  | <network_protocol>                     |
+|              | src_ip    | <src_ip>                               |
+|              | dst_ip    | <dst_ip>                               |
+|              | src_port  | <src_port>                             |
+|              | dst_port  | <dst_port>                             |
+| 2nd_layer_ip | protocol  | <network_protocol>                     |
+|              | src_ip    | <src_ip>                               |
+|              | dst_ip    | <dst_ip>                               |
+|              | src_port  | <src_port>                             |
+|              | dst_port  | <dst_port>                             |
+| 3rd_layer_ip | protocol  | <network_protocol>                     |
+|              | src_ip    | <src_ip>                               |
+|              | dst_ip    | <dst_ip>                               |
+|              | src_port  | <src_port>                             |
+|              | dst_port  | <dst_port>                             |
+| storage_path |           | <file_storage_path>                    |
+| create       | user      | <create_user_name>                     |
+|              | time      | <create_date_time>                     |
+| modify       | user      | <modify_user_name>                     |
+|              | time      | <modify_date_time>                     |
 
 **Usage:**
 
@@ -118,7 +120,7 @@ curl -X POST \
 curl -X POST \
     -H "Content-Type:application/json" \
     -d '{
-        "number":"<time+business_type+sn>",
+        "_id":"<time+business_type+sn>",
         "encrypted":"<y/n>",
         "1st_layer_ip": {
             "protocol":"<network_protocol>",
@@ -141,12 +143,15 @@ curl -X POST \
             "src_port":"<src_port>",
             "dst_port":"<dst_port>"
         },
-        "file_path":"<file_storage_path>"
-        "input_user":"<input_user_name>",
-        "input_time":"<input_date_time>"
+        "storage_path":"<file_storage_path>"
+        "create": {
+            "user":"<create_user_name>"
+        }
     }' \
     http://<FQDN>:27080/dev/l2_ip_data
 ```
+
+Note: RIFM will add create datetime automatically.
 
 ### **E-mail (3rd Level)**
 
@@ -171,18 +176,19 @@ curl -X POST \
 curl -X POST \
     -H "Content-Type:application/json" \
     -d '{
-        "number":"<time+business_type+sn>",
+        "_id":"<time+business_type+sn>",
         "from":"<from_addresss>",
         "to":"<to_address>",
         "title":"<email_title>",
         "storage_path":"<file_storage_path>",
         "create": {
-            "user":"<create_user_name>",
-            "time":"<create_date_time>"
+            "user":"<create_user_name>"
         }
     }' \
     http://<FQDN>:27080/dev/l3_email
 ```
+
+Note: RIFM will add create datetime automatically.
 
 - Update one document using 'PUT'
 
@@ -197,6 +203,8 @@ curl -X PUT \
     }' \
     http://<FQDN>:27080/dev/l3_email/<string:_id>
 ```
+
+Note: RIFM will add create datetime automatically.
 
 or
 
@@ -245,12 +253,13 @@ curl -X POST \
         "type":"<http_file_type>",
         "storage_path":"<file_storage_path>",
         "create": {
-            "user":"<create_user_name>",
-            "time":"<create_date_time>"
+            "user":"<create_user_name>"
         }
     }' \
     http://<FQDN>:27080/dev/l3_http
 ```
+
+Note: RIFM will add create datetime automatically.
 
 - Update one document using 'PUT'
 
