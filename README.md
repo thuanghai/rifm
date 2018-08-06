@@ -150,20 +150,22 @@ curl -X POST \
 
 ### **E-mail (3rd Level)**
 
-| DB Field Name   | Description                            |
-| --------------- | -------------------------------------- |
-| _id             | <datatime+business_type+serial_number> |
-| title           | <email_title>                          |
-| from            | <from_address>                         |
-| to              | <to_address>                           |
-| attachment_tpye | <attachment_type> (exp.:pdf)           |
-| file_path       | <file_storage_path>                    |
-| input_user      | <input_user_name>                      |
-| input_time      | <input_date_time>                      |
+| Field(L1)       | Field(L2) | Description                            |
+| --------------- | --------- | -------------------------------------- |
+| _id             |           | <datatime+business_type+serial_number> |
+| title           |           | <email_title>                          |
+| from            |           | <from_address>                         |
+| to              |           | <to_address>                           |
+| attachment_tpye |           | <attachment_type> (exp.:pdf)           |
+| storage_path    |           | <file_storage_path>                    |
+| create          | user      | <create_user_name>                     |
+|                 | time      | <create_date_time>                     |
+| modify          | user      | <modify_user_name>                     |
+|                 | time      | <modify_date_time>                     |
 
 **Usage:**
 
-1. Create one document using 'POST'
+- Create one document using 'POST'
 
 ```(cmd)
 curl -X POST \
@@ -172,27 +174,63 @@ curl -X POST \
         "number":"<time+business_type+sn>",
         "from":"<from_addresss>",
         "to":"<to_address>",
-        "title":"email_title",
-        "file_path":"<file_storage_path>",
-        "input_user":"<input_user_name>",
-        "input_time":"<input_date_time>"
+        "title":"<email_title>",
+        "storage_path":"<file_storage_path>",
+        "create": {
+            "user":"<create_user_name>",
+            "time":"<create_date_time>"
+        }
     }' \
     http://<FQDN>:27080/dev/l3_email
 ```
 
+- Update one document using 'PUT'
+
+```(cmd)
+curl -X PUT \
+    -H "Content-Type:application/json" \
+    -d '{
+        "$set": {
+            "storage_path":"<update_file_storage_path>",
+            "modify.user":"<modify_user_name>"
+        }
+    }' \
+    http://<FQDN>:27080/dev/l3_email/<string:_id>
+```
+
+or
+
+```(cmd)
+curl -X PUT \
+    -H "Content-Type:application/json" \
+    -d '{
+        "$set": {
+            "title":"<update_email_title>",
+            "from":"<update_email_from_address>",
+            "to":"<update_email_to_address>",
+            "stroage_path":"<update_file_storage_path>",
+            "create.user":"<update_user_name>",
+            "modify.user":"<modify_user_name>"
+        }
+    }' \
+    http://<FQDN>:27080/dev/l3_email/<string:_id>
+```
+
+Note: You can update one or more fields at a time. But update modify user always.
+
 ### **HTTP (3rd Level)**
 
-| Field (L1) | Field (L2) | Description                        |
-| ---------- | ---------- | ---------------------------------- |
-| _id        |            | <time+business_type+serial_number> |
-| src_id     |            | <ip_data_id>                       |
-| title      |            | <http_page_title>                       |
-| type       |            | <http_file_type>                        |
-| path       |            | <file_storage_path>                |
-| create     | user       | <create_user_name>                 |
-|            | time       | <create_date_time>                 |
-| modify     | user       | <last_modify_user>                 |
-|            | time       | <last_modify_time>                 |
+| Field (L1)   | Field (L2) | Description                        |
+| ------------ | ---------- | ---------------------------------- |
+| _id          |            | <time+business_type+serial_number> |
+| src_id       |            | <ip_data_id>                       |
+| title        |            | <http_page_title>                  |
+| type         |            | <http_file_type>                   |
+| storage_path |            | <file_storage_path>                |
+| create       | user       | <create_user_name>                 |
+|              | time       | <create_date_time>                 |
+| modify       | user       | <last_modify_user>                 |
+|              | time       | <last_modify_time>                 |
 
 **Usage:**
 
@@ -205,10 +243,10 @@ curl -X POST \
         "_id":"<time+business_type+serial_number>",
         "title":"<http_page_title>",
         "type":"<http_file_type>",
-        "path":"<file_storage_path>",
+        "storage_path":"<file_storage_path>",
         "create": {
-            "user":"<input_user_name>",
-            "time":"<input_date_time>"
+            "user":"<create_user_name>",
+            "time":"<create_date_time>"
         }
     }' \
     http://<FQDN>:27080/dev/l3_http
@@ -221,7 +259,7 @@ curl -X PUT \
     -H "Content-Type:application/json" \
     -d '{
         "$set": {
-            "path":"<update_file_storage_path>",
+            "storage_path":"<update_file_storage_path>",
             "modify.user":"<modify_user_name>"
         }
     }' \
@@ -237,7 +275,7 @@ curl -X PUT \
         "$set": {
             "title":"<update_http_page_title>",
             "type":"<update_http_file_type>",
-            "path":"<update_file_storage_path>",
+            "storage_path":"<update_file_storage_path>",
             "create.user":"<update_user_name>",
             "modify.user":"<modify_user_name>"
         }

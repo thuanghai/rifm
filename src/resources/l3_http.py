@@ -52,14 +52,17 @@ from src.common import (
 
 class Http(Resource):
 
-    # | DB Field Name | Description                            |
-    # | ------------- | -------------------------------------- |
-    # | _id           | <datatime+business_type+serial_number> |
-    # | type          | <file_type>                            |
-    # | title         | <page_title>                           |
-    # | file_path     | <file_storage_path>                    |
-    # | input_user    | <input_user_name>                      |
-    # | input_time    | <input_date_time>                      |
+# | Field (L1)   | Field (L2) | Description                        |
+# | ------------ | ---------- | ---------------------------------- |
+# | _id          |            | <time+business_type+serial_number> |
+# | src_id       |            | <ip_data_id>                       |
+# | title        |            | <http_page_title>                  |
+# | type         |            | <http_file_type>                   |
+# | storage_path |            | <file_storage_path>                |
+# | create       | user       | <create_user_name>                 |
+# |              | time       | <create_date_time>                 |
+# | modify       | user       | <last_modify_user>                 |
+# |              | time       | <last_modify_time>                 |
 
     def __init__(self, **kwargs):
         self.mongo_cfg = kwargs['mongo_cfg']
@@ -68,12 +71,13 @@ class Http(Resource):
     
     # @marshal_with(person_fields)
     def post(self):
+        """
+        Create a single http record
+        """
         if request.method != 'POST':
             abort(405)
-        
-        # data = request.get_json()
+        # check and add create time
         data = dtcheck.check_create(request.get_json())
-        
         # write to database
         # self.mongo_cfg[0] is mongodb server host
         # self.mongo_cfg[1] is mongodb server port
@@ -88,6 +92,9 @@ class Http(Resource):
             return '', 417
 
     def get(self, data_id):
+        """
+        Get http record
+        """
         if data_id is None:
             # TODO: return list of data
             pass
@@ -97,12 +104,11 @@ class Http(Resource):
 
     def put(self, data_id):
         """
-        Update a single record
+        Update a single http record
         """
         if request.method != 'PUT':
             abort(405)
-
-        # data = request.get_json()
+        # check and add update time
         data = dtcheck.check_modify(request.get_json())
         # write to database
         # self.mongo_cfg[0] is mongodb server host
@@ -119,5 +125,8 @@ class Http(Resource):
             return '', 417
 
     def delete(self, data_id):
+        """
+        Delete a single email record
+        """
         # TODO: delete a single data
         pass

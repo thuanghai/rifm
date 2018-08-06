@@ -58,7 +58,7 @@ def test_post(client):
         'src_id': test_src_id,
         'title': test_title,
         'type': test_type,
-        'path': test_path,
+        'storage_path': test_path,
         'create': {
             'user':'test'
         }
