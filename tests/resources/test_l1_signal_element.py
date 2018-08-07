@@ -62,7 +62,7 @@ def test_post(client):
         'data_source_type':'master/vsat station',
         'demodulator_id':'demodulator_id_value',
         'time_stamp':'time_stamp_value',
-        'frame_type':'control-frame / ip-data',
+        'frame_type':'control-frame or ip-data',
         'storage_path': '/vol/data/signal_element/test_signal-element_file',
         'create': {
             'user':'test'

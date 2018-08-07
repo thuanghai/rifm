@@ -30,7 +30,12 @@ def create_one(
     # Get collection
     clt = db[collection_name]
     # Insert one document
-    return clt.insert_one(data)
+    result = clt.insert_one(data)
+    # Check write result
+    if result.acknowledged == True:
+        return result.inserted_id
+    else:
+        return ''
 
 def find_one(
     db_name: dict(type=str, help='MongoDB database name'),

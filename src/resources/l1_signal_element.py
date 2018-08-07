@@ -56,8 +56,8 @@ class SignalElement(Resource):
             self.db_name,
             self.collection_name,
             data)
-        if result == True:
-            return '', 201
+        if result:
+            return result, 201
         else:
             return '', 417
 
