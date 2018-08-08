@@ -11,3 +11,5 @@ class ProductionConfig(Config):
     MONGO_HOST = '0.0.0.0'
     # MongoDB Port
     MONGO_PORT = 27017
+    # DB Name
+    MONGO_DB_NAME = 'xxx'

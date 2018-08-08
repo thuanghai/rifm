@@ -3,6 +3,9 @@
 import os
 
 def load_config():
+    """
+    Get different configuration with your setting in app.py
+    """
     mode = os.environ.get('MODE')
 
     if mode == 'DEVELOPMENT':

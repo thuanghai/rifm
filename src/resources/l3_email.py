@@ -57,9 +57,9 @@ class Email(Resource):
             self.collection_name,
             data)
         if result:
-            return result, 201
+            return 'Create record success. ID:' + result, 201
         else:
-            return '', 417
+            return 'Create record failed!', 417
 
     def get(self, data_id):
         """
@@ -90,9 +90,9 @@ class Email(Resource):
             data,
             data_id)
         if result == True:
-            return '', 200
+            return 'Update record success!', 200
         else:
-            return '', 417
+            return 'Update record failed', 417
 
     def delete(self, data_id):
         """
