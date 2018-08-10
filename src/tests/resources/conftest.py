@@ -2,7 +2,10 @@
 import os
 import pytest
 
-from src.app import create_app
+# from src.app import create_app
+import sys
+sys.path.append('...')
+from app import create_app
 
 @pytest.fixture
 def app():

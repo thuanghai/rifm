@@ -12,7 +12,7 @@ from flask_restful import (
     # reqparse
 )
 
-from src.common import (
+from common import (
     datetime,
     dbcrud,
     dtcheck
@@ -67,9 +67,9 @@ class IpData(Resource):
             self.collection_name,
             data)
         if result:
-            return 'Create record success. ID:' + result, 201
+            return 'Create success！ ID:' + result, 201
         else:
-            return 'Create record failed!', 417
+            return 'Create failed!', 417
 
     def get(self, data_id):
         """
@@ -100,9 +100,9 @@ class IpData(Resource):
             data,
             data_id)
         if result == True:
-            return 'Update record success!', 200
+            return 'Update success!', 200
         else:
-            return 'Update record failed', 417
+            return 'Update failed！', 417
 
     def delete(self, data_id):
         """

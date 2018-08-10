@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
-import datetime
 import random
 import pytest
 import json
 
 from flask import url_for
 
-from src.common.datetime import get_utc_datetime
-from src.resources.l1_signal_element import SignalElement
+import sys
+sys.path.append('...')
+from common.datetime import get_utc_datetime
+from resources.l3_http import Http
 
 # How to build url using 'url_for', you can see 'Flask Quick Start' or this code below:
 # --------------------------------------------------------------
@@ -41,35 +42,28 @@ def test_get(client):
     """
     Test client get method for null
     """
-    chkresponse = client.get(url_for('api.l1_signal_element'))
+    chkresponse = client.get(url_for('api.l3_http'))
     assert chkresponse.status_code == 200
 
 def test_post(client):
     """
     Test client post method for insert one document
     """
-
-    test_id = str(get_utc_datetime()) + '_signal_element_type_' + str(random.randint(1, 9999999))
+    test_src_id = str(get_utc_datetime()) + '_src-type_' + 'src-serial_number'
+    test_id = str(get_utc_datetime()) + '_http_type_' + str(random.randint(1, 9999999))
     test_post_data = {
         '_id':test_id,
-        'satellite':'test_satellite_name',
-        'antenna_id':'test_antenna_id_value',
-        'polarity':'test_polarity_method',
-        'frequency':'test_frequency_value',
-        'modulation_type':'test_modulation_type_value',
-        'modulation_rate':'test_modulation_rate_value',
-        'channel_coding':'test_channel_coding',
-        'data_source_type':'master/vsat station',
-        'demodulator_id':'demodulator_id_value',
-        'time_stamp':'time_stamp_value',
-        'frame_type':'control-frame or ip-data',
-        'storage_path': '/vol/data/signal_element/test_signal-element_file',
+        'src_id':test_src_id,
+        'title':'test-http-title',
+        'type':'test-http-file-type',
+        'storage_path':'/vol/data/test_http_file',
         'create': {
             'user':'test'
         }
     }
+
     chkresponse = client.post(
-        url_for('api.l1_signal_element'), 
+        url_for('api.l3_http'), 
         json = test_post_data
     )
     # Note:
@@ -84,25 +78,24 @@ def test_put(client):
     Test client put method for update one document
     """
     # set update document '_id'
-    test_update_id = '2018-08-06 13:04:38.845948_signal_element_type_6670346'
+    test_update_id = '2018-07-29 14:27:15.199516_http_type_3235623'
     test_put_data = {
         # # modify record with modify information like 'modify.user'.
         # '$set': {
-        #     'satellite':'test_satellite_name',
-        #     'storage_path':'/vol/data/control_frame/update_control-frame_file',
+        #     'title':'test_update_title_0729',
+        #     'type':'test_update_type_0729',
         #     'modify.user':'kowalski'
-        # }
+        #     }
         # modify record without modify information.
         '$set': {
-            'satellite':'update_satellite_name',
-            'storage_path':'/vol/data/control_frame/update_signal-element_file',
-        }
+            'title':'test_update_title',
+            'type':'test_update_type'
+            }
     }
     # You can add some fields directly
     chkresponse = client.put(
-        url_for('api.l1_signal_element', data_id=test_update_id),
+        url_for('api.l3_http', data_id=test_update_id),
         json = test_put_data
     )
     # Note: How to use 'url_for', you can see this file above or Flask Quick Start.
-    # assert chkresponse.status_code == 417
     assert chkresponse.status_code == 200

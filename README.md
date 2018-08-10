@@ -8,7 +8,14 @@
 - Flask-RESTful
 - pymongo
 
-## **Http Code**
+## **Http Response**
+
+### **Response Message**
+
+- Create/Update success! ID:\<MongoDB document id\>
+- Create/Update failed!
+
+### **Response Code**
 
 - 200: OK
 - 201: Created

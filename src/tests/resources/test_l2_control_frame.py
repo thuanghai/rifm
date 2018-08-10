@@ -6,8 +6,10 @@ import json
 
 from flask import url_for
 
-from src.common.datetime import get_utc_datetime
-from src.resources.l2_ip_data import IpData
+import sys
+sys.path.append('...')
+from common.datetime import get_utc_datetime
+from resources.l2_ip_data import IpData
 
 # How to build url using 'url_for', you can see 'Flask Quick Start' or this code below:
 # --------------------------------------------------------------

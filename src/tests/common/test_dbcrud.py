@@ -11,7 +11,9 @@
 # > pytest test_dbcrud.py::test_create_one
 import pytest
 
-from src.common import dbcrud
+import sys
+sys.path.append('...')
+from common import dbcrud
 
 def test_db_connect():
     """

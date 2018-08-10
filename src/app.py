@@ -11,8 +11,8 @@ from flask_restful import (
 )
 
 # from config import load_config
-from src.config import load_config
-from src.resources import (
+from config import load_config
+from resources import (
     l1_signal_element,
     l2_control_frame,
     l2_ip_data,
