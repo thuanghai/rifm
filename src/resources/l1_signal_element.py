@@ -61,16 +61,23 @@ class SignalElement(Resource):
         else:
             return 'Create failed!', 417
 
-    def get(self, data_id):
-        """
-        Get control frame data record
-        """
-        if data_id is None:
-            # TODO: return list of data
-            pass
-        else:
-            # TODO: expose a single data
-            pass
+    # def get(self, data_id):
+    #     """
+    #     Get control frame data record
+    #     """
+    #     if request.method != 'GET'
+    #         abort(405)
+
+    #     if data_id is None:
+    #         result = dbcrud.find_one(
+    #             self.mongo_cfg,
+    #             self.db_name,
+    #             self.collection_name,
+    #             data_id)
+    #         )
+    #         return result, 200
+    #     else:
+    #         return "No '_id'", 417
 
     def put(self, data_id):
         """
@@ -98,5 +105,17 @@ class SignalElement(Resource):
         """
         Delete a single control frame record
         """
-        # TODO: delete a single data
-        pass
+        if request.method != 'DELETE':
+            abort(405)
+        # write to database
+        # self.mongo_cfg[0] is mongodb server host
+        # self.mongo_cfg[1] is mongodb server port
+        result = dbcrud.delete_one(
+            self.mongo_cfg,
+            self.db_name,
+            self.collection_name,
+            data_id)
+        if result == 1:
+            return 'Delete success!', 200
+        else:
+            return 'Delete failed！', 417
