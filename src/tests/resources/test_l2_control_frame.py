@@ -98,3 +98,14 @@ def test_put(client):
     )
     # Note: How to use 'url_for', you can see this file above or Flask Quick Start.
     assert chkresponse.status_code == 200
+
+def test_delete(client):
+    """
+    Test client delete method for update one document
+    """
+    # set delete document '_id'
+    test_delete_id = '2018-08-06 09:46:36.696128_http_type_4367838'
+    chkresponse = client.delete(
+        url_for('api.l2_control_frame', data_id=test_delete_id)
+    )
+    assert chkresponse.status_code == 200
