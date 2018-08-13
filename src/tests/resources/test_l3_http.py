@@ -57,6 +57,7 @@ def test_post(client):
         'title':'test-http-title',
         'type':'test-http-file-type',
         'storage_path':'/vol/data/test_http_file',
+        'time_stamp':'input_your_time_stamp',
         'create': {
             'user':'test'
         }
@@ -98,4 +99,15 @@ def test_put(client):
         json = test_put_data
     )
     # Note: How to use 'url_for', you can see this file above or Flask Quick Start.
+    assert chkresponse.status_code == 200
+
+def test_delete(client):
+    """
+    Test client delete method for update one document
+    """
+    # set delete document '_id'
+    test_delete_id = '20180724_03-33-27_http_type_6491084'
+    chkresponse = client.delete(
+        url_for('api.l3_http', data_id=test_delete_id)
+    )
     assert chkresponse.status_code == 200
