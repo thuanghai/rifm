@@ -16,6 +16,13 @@ def db_connect(
     db = client[db_name]
     return db
 
+def db_close(client):
+    """
+    Close mongodb
+    """
+    # type of client is pymongo.database
+    client.close()
+
 def create_one(
     mongo_cfg: dict(type=tuple, help='MongoDB host and port'),
     db_name: dict(type=str, help='MongoDB database name'), 
@@ -73,19 +80,20 @@ def update_one(
     else:
         return False
 
-def delete(
-    db_name: dict(type=str, help='MongoDB database name'),
-    collection_name: dict(type=str, help='MongoDB collection name'),
-    id=None
+def delete_one(
+    mongo_cfg: dict(type=tuple, help='MongoDB host and port'),
+    db_name: dict(type=str, help='MongoDB database name'), 
+    collection_name: dict(type=str, help ='MongoDB collection name'), 
+    data_id: dict(type=str, help='MongoDB document id')
 ):
-#     # # Get database
-#     # db = db_connect(db_name)
-#     # # Get collection
-#     # clt = db[collection_name]
-#     # if id:
-#     #     # Find document and delete it
-#     #     return clt.delete_one({'_id': ObjectId(id)})
-#     # else:
-#     #     # Find all documents and delete them
-#     #     return clt.delete_many({'_id': ObjectId(id)})
-    pass
+    # Get database
+    db = db_connect(mongo_cfg, db_name)
+    # Get collection
+    clt = db[collection_name]
+    # Insert one document
+    result = clt.delete_one({'_id':data_id})
+    # Check write result
+    if result.acknowledged == True:
+        return result.deleted_count
+    else:
+        return -1
