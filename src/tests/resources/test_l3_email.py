@@ -59,6 +59,7 @@ def test_post(client):
         'to':'recv@dev.org',
         'title':'test-email-title',
         'storage_path':'/vol/data/email/test_email_file',
+        'time_stamp':'input_your_time_stamp',
         'create': {
             'user':'test'
         }
@@ -100,4 +101,15 @@ def test_put(client):
         json = test_put_data
     )
     # Note: How to use 'url_for', you can see this file above or Flask Quick Start.
+    assert chkresponse.status_code == 200
+
+def test_delete(client):
+    """
+    Test client delete method for update one document
+    """
+    # set delete document '_id'
+    test_delete_id = '2018-08-06 03:17:46.099849_email_type_6035886'
+    chkresponse = client.delete(
+        url_for('api.l3_email', data_id=test_delete_id)
+    )
     assert chkresponse.status_code == 200
