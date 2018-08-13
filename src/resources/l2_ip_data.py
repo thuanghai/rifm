@@ -106,7 +106,19 @@ class IpData(Resource):
 
     def delete(self, data_id):
         """
-        Delete a single ip data record
+        Delete a single control frame record
         """
-        # TODO: delete a single data
-        pass
+        if request.method != 'DELETE':
+            abort(405)
+        # write to database
+        # self.mongo_cfg[0] is mongodb server host
+        # self.mongo_cfg[1] is mongodb server port
+        result = dbcrud.delete_one(
+            self.mongo_cfg,
+            self.db_name,
+            self.collection_name,
+            data_id)
+        if result == 1:
+            return 'Delete success!', 200
+        else:
+            return 'Delete failed！', 417
