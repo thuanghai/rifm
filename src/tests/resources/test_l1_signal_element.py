@@ -11,9 +11,6 @@ sys.path.append('...')
 from common.datetime import get_utc_datetime
 from resources.l1_signal_element import SignalElement
 
-# from ...src.common.datetime import get_utc_datetime
-# from ...src.resources.l1_signal_element import SignalElement
-
 # How to build url using 'url_for', you can see 'Flask Quick Start' or this code below:
 # --------------------------------------------------------------
 # from flask import Flask, url_for
@@ -42,21 +39,25 @@ from resources.l1_signal_element import SignalElement
 # /user/John%20Doe
 # --------------------------------------------------------------
 
-def test_get(client):
-    """
-    Test client get method for null
-    """
-    chkresponse = client.get(url_for('api.l1_signal_element'))
-    assert chkresponse.status_code == 200
+USE_STATIC_ID = True
+
+TEST_ID = ''
+
+def get_test_id():
+    if USE_STATIC_ID:
+        return 'test_signal_element_doc_id'
+    else:
+        return str(get_utc_datetime()) + '_signal_element_type_' + str(random.randint(1, 9999999))
 
 def test_post(client):
     """
     Test client post method for insert one document
     """
-    print(sys.path)
-    test_id = str(get_utc_datetime()) + '_signal_element_type_' + str(random.randint(1, 9999999))
+    # set insert document '_id'
+    TEST_ID = get_test_id()
+    # set insert document data
     test_post_data = {
-        '_id':test_id,
+        '_id':TEST_ID,
         'satellite':'test_satellite_name',
         'antenna_id':'test_antenna_id_value',
         'polarity':'test_polarity_method',
@@ -66,7 +67,6 @@ def test_post(client):
         'channel_coding':'test_channel_coding',
         'data_source_type':'master/vsat station',
         'demodulator_id':'demodulator_id_value',
-        'time_stamp':'time_stamp_value',
         'frame_type':'control-frame or ip-data',
         'storage_path': '/vol/data/signal_element/test_signal-element_file',
         'time_stamp':'input_your_time_stamp',
@@ -74,6 +74,7 @@ def test_post(client):
             'user':'test'
         }
     }
+
     chkresponse = client.post(
         url_for('api.l1_signal_element'), 
         json = test_post_data
@@ -85,12 +86,27 @@ def test_post(client):
     # 3. You can get the JSON data from request or response with get_json.
     assert chkresponse.status_code == 201
 
+def test_get(client):
+    """
+    Test client get method for null
+    """
+    # set read document '_id'
+    TEST_ID = get_test_id()
+
+    chkresponse = client.get(
+        url_for('api.l1_signal_element', data_id=TEST_ID)
+    )
+    # the type of chkresponse is 'flask.plugin.JSONResponse'
+    assert chkresponse.status_code == 200
+    # the type of chkresponse.data is "<class 'bytes'>"
+
 def test_put(client):
     """
     Test client put method for update one document
     """
     # set update document '_id'
-    test_update_id = '2018-08-07 04:30:32.735908_signal_element_type_4662202'
+    TEST_ID = get_test_id()
+    # set update data
     test_put_data = {
         # # modify record with modify information like 'modify.user'.
         # '$set': {
@@ -106,7 +122,7 @@ def test_put(client):
     }
     # You can add some fields directly
     chkresponse = client.put(
-        url_for('api.l1_signal_element', data_id=test_update_id),
+        url_for('api.l1_signal_element', data_id=TEST_ID),
         json = test_put_data
     )
     # Note: How to use 'url_for', you can see this file above or Flask Quick Start.
@@ -118,8 +134,9 @@ def test_delete(client):
     Test client delete method for update one document
     """
     # set delete document '_id'
-    test_delete_id = '2018-08-10 03:38:51.049005_signal_element_type_3817977'
+    TEST_ID = get_test_id()
+    
     chkresponse = client.delete(
-        url_for('api.l1_signal_element', data_id=test_delete_id)
+        url_for('api.l1_signal_element', data_id=TEST_ID)
     )
     assert chkresponse.status_code == 200

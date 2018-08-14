@@ -62,23 +62,25 @@ class SignalElement(Resource):
         else:
             return 'Create failed!', 417
 
-    # def get(self, data_id):
-    #     """
-    #     Get control frame data record
-    #     """
-    #     if request.method != 'GET'
-    #         abort(405)
-
-    #     if data_id is None:
-    #         result = dbcrud.find_one(
-    #             self.mongo_cfg,
-    #             self.db_name,
-    #             self.collection_name,
-    #             data_id)
-    #         )
-    #         return result, 200
-    #     else:
-    #         return "No '_id'", 417
+    def get(self, data_id):
+        """
+        Get control frame data record
+        """
+        if request.method != 'GET':
+            abort(405)
+        # find document by '_id'
+        result = dbcrud.find_one(
+            self.db_host,
+            self.db_port,
+            self.db_name,
+            self.collection_name,
+            data_id
+        )
+        if result:
+            # Note1: the type of result is <class 'dict'>
+            return result, 200
+        else:
+            return 'None!', 200
 
     def put(self, data_id):
         """
@@ -107,7 +109,7 @@ class SignalElement(Resource):
         """
         if request.method != 'DELETE':
             abort(405)
-        # write to database
+        # find document and delete
         result = dbcrud.delete_one(
             self.db_host,
             self.db_port,
