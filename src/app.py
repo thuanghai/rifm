@@ -33,7 +33,7 @@ def create_app(test_config=None):
     """
     <!> 'mongo_cfg' uses 'tuple' type which can be hashed for transfering multiple arguments.
     """
-    mongo_cfg = (mongo_host, mongo_port)
+    mongo_cfg = (mongo_host, mongo_port, mongo_db)
 
     api_bp = Blueprint('api', __name__)
     api = Api(api_bp)

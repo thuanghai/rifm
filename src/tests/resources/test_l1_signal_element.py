@@ -69,6 +69,7 @@ def test_post(client):
         'time_stamp':'time_stamp_value',
         'frame_type':'control-frame or ip-data',
         'storage_path': '/vol/data/signal_element/test_signal-element_file',
+        'time_stamp':'input_your_time_stamp',
         'create': {
             'user':'test'
         }
@@ -89,7 +90,7 @@ def test_put(client):
     Test client put method for update one document
     """
     # set update document '_id'
-    test_update_id = '2018-08-06 13:04:38.845948_signal_element_type_6670346'
+    test_update_id = '2018-08-07 04:30:32.735908_signal_element_type_4662202'
     test_put_data = {
         # # modify record with modify information like 'modify.user'.
         # '$set': {
@@ -99,7 +100,7 @@ def test_put(client):
         # }
         # modify record without modify information.
         '$set': {
-            'satellite':'update_satellite_name',
+            'satellite':'update_satellite_name_X',
             'storage_path':'/vol/data/control_frame/update_signal-element_file',
         }
     }
@@ -110,4 +111,15 @@ def test_put(client):
     )
     # Note: How to use 'url_for', you can see this file above or Flask Quick Start.
     # assert chkresponse.status_code == 417
+    assert chkresponse.status_code == 200
+
+def test_delete(client):
+    """
+    Test client delete method for update one document
+    """
+    # set delete document '_id'
+    test_delete_id = '2018-08-10 03:38:51.049005_signal_element_type_3817977'
+    chkresponse = client.delete(
+        url_for('api.l1_signal_element', data_id=test_delete_id)
+    )
     assert chkresponse.status_code == 200

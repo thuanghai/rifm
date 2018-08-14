@@ -57,6 +57,7 @@ def test_post(client):
         'src_id':test_src_id,
         'type': '0xDD',
         'storage_path': '/vol/data/control_frame/test_control-frame_file',
+        'time_stamp':'input_your_time_stamp',
         'create': {
             'user':'test'
         }
@@ -97,4 +98,15 @@ def test_put(client):
         json = test_put_data
     )
     # Note: How to use 'url_for', you can see this file above or Flask Quick Start.
+    assert chkresponse.status_code == 200
+
+def test_delete(client):
+    """
+    Test client delete method for update one document
+    """
+    # set delete document '_id'
+    test_delete_id = '2018-08-06 09:46:36.696128_http_type_4367838'
+    chkresponse = client.delete(
+        url_for('api.l2_control_frame', data_id=test_delete_id)
+    )
     assert chkresponse.status_code == 200

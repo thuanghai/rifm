@@ -7,6 +7,8 @@
 - Flask
 - Flask-RESTful
 - pymongo
+- pytest
+- pytest-flask
 
 ## **Http Response**
 
@@ -20,6 +22,7 @@
 - 200: OK
 - 201: Created
 - 204: No Contect
+- 405: Method not allowed
 - 417: Expectation Failed
 
 ## **MongoDB Design And Usage**
@@ -40,9 +43,9 @@
 | channel_coding   |           | <channel_coding>                                 |
 | data_source_type |           | <data_source_type> (exp.: master/vsat station)   |
 | demodulator_id   |           | <demodulator_id_value>                           |
-| time_stamp       |           | <time_stamp_value>                               |
 | frame_type       |           | <frame_type_value> (exp.: control frame/ip data) |
 | storage_path     |           | <file_storage_path>                              |
+| time_stamp       |           | <time_stamp_value>                               |
 | create           | user      | <input_user_name>                                |
 |                  | time      | <create_date_time>                               |
 | modify           | user      | <modify_user_name>                               |
@@ -66,9 +69,9 @@ curl -X POST \
         "channel_coding":"<channel_coding>",
         "data_source_type":"<data_source_type>",
         "demodulator_id":"<demodulator_id_value>",
-        "time_stamp":"<time_stamp_value>",
         "frame_type":"<frame_type_value>",
         "storage_path":"<file_storage_path>",
+        "time_stamp":"<time_stamp_value>",
         "create": {
             "user":"<create_user_name>"
         }
@@ -113,6 +116,12 @@ curl -X PUT \
 
 Note: You can update one or more fields at a time. But update modify user always.
 
+- Delete one document by '_id' Using 'DELETE'
+
+```(cmd)
+curl -X DELETE http://<FQDN>:27080/dev/l1_signal_element/<string:_id>
+```
+
 ### **Control Frame (2nd Level)**
 
 **Collection Design:**
@@ -123,6 +132,7 @@ Note: You can update one or more fields at a time. But update modify user always
 | src_id       |           | <source_data_id(l1_signal_element id)>               |
 | type         |           | <frame_type> (exp.:0xDC,0xDD,0x40,6 bytes frame,...) |
 | storage_path |           | <file_storage_path>                                  |
+| time_stamp   |           | <time_stamp_value>                                   |
 | create       | name      | <create_user_name>                                   |
 |              | time      | <create_date_time>                                   |
 | modify       | name      | <modify_date_time>                                   |
@@ -140,6 +150,7 @@ curl -X POST \
         "src_id":"<source_id_data(Level1)>",
         "type":"<frame_type>",
         "storage_path":"<file_storage_path>",
+        "time_stamp":"<time_stamp_value>",
         "create": {
             "user":"<create_user_name>"
         }
@@ -180,6 +191,12 @@ curl -X PUT \
 
 Note: You can update one or more fields at a time. But update modify user always.
 
+- Delete one document by '_id' Using 'DELETE'
+
+```(cmd)
+curl -X DELETE http://<FQDN>:27080/dev/l2_control_frame/<string:_id>
+```
+
 ### **IP Data (2nd Level)**
 
 **Collection Design:**
@@ -205,6 +222,7 @@ Note: You can update one or more fields at a time. But update modify user always
 |              | src_port  | <src_port>                             |
 |              | dst_port  | <dst_port>                             |
 | storage_path |           | <file_storage_path>                    |
+| time_stamp   |           | <time_stamp_value>                     |
 | create       | user      | <create_user_name>                     |
 |              | time      | <create_date_time>                     |
 | modify       | user      | <modify_user_name>                     |
@@ -242,7 +260,8 @@ curl -X POST \
             "src_port":"<src_port>",
             "dst_port":"<dst_port>"
         },
-        "storage_path":"<file_storage_path>"
+        "storage_path":"<file_storage_path>",
+        "time_stamp":"<time_stamp_value">,
         "create": {
             "user":"<create_user_name>"
         }
@@ -289,6 +308,12 @@ curl -X PUT \
 
 Note: You can update one or more fields at a time. But update modify user always.
 
+- Delete one document by '_id' Using 'DELETE'
+
+```(cmd)
+curl -X DELETE http://<FQDN>:27080/dev/l2_ip_data/<string:_id>
+```
+
 ### **E-mail (3rd Level)**
 
 **Collection Design:**
@@ -302,6 +327,7 @@ Note: You can update one or more fields at a time. But update modify user always
 | to              |           | <to_address>                           |
 | attachment_tpye |           | <attachment_type> (exp.:pdf)           |
 | storage_path    |           | <file_storage_path>                    |
+| time_stamp      |           | <time_stamp_value>                     |
 | create          | user      | <create_user_name>                     |
 |                 | time      | <create_date_time>                     |
 | modify          | user      | <modify_user_name>                     |
@@ -321,6 +347,7 @@ curl -X POST \
         "to":"<to_address>",
         "title":"<email_title>",
         "storage_path":"<file_storage_path>",
+        "time_stamp":"<time_stamp_value>",
         "create": {
             "user":"<create_user_name>"
         }
@@ -367,6 +394,12 @@ curl -X PUT \
 
 Note: You can update one or more fields at a time. But update modify user always.
 
+- Delete one document by '_id' Using 'DELETE'
+
+```(cmd)
+curl -X DELETE http://<FQDN>:27080/dev/l3_email/<string:_id>
+```
+
 ### **HTTP (3rd Level)**
 
 **Collection Design:**
@@ -378,6 +411,7 @@ Note: You can update one or more fields at a time. But update modify user always
 | title        |            | <http_page_title>                  |
 | type         |            | <http_file_type>                   |
 | storage_path |            | <file_storage_path>                |
+| time_stamp   |            | <time_stamp_value>                 |
 | create       | user       | <create_user_name>                 |
 |              | time       | <create_date_time>                 |
 | modify       | user       | <last_modify_user>                 |
@@ -396,6 +430,7 @@ curl -X POST \
         "title":"<http_page_title>",
         "type":"<http_file_type>",
         "storage_path":"<file_storage_path>",
+        "time_stamp":"<time_stamp_value>",
         "create": {
             "user":"<create_user_name>"
         }
@@ -437,3 +472,15 @@ curl -X PUT \
 ```
 
 Note: You can update one or more fields at a time. But update modify user always.
+
+- Delete one document by '_id' Using 'DELETE'
+
+```(cmd)
+curl -X DELETE http://<FQDN>:27080/dev/l3_http/<string:_id>
+```
+
+## TODO
+
+- GET function
+- Think about Import Flask-Pymongo
+- Think about mongodb 'close()' or use one instance connection.
