@@ -76,7 +76,15 @@ curl -X POST \
             "user":"<create_user_name>"
         }
     }' \
-    http://<FQDN>:27080/dev/l1_signal_element
+    http://<FQDN>:27080/<db_name>/l1_signal_element
+```
+
+Note: RIFM will add create datetime automatically.
+
+- Find one document by '_id'
+
+```(cmd)
+curl -X GET http://<FQDN>:27080/<db_name>/l1_signal_element/<string:_id>
 ```
 
 - Update some fields in one document using 'PUT'
@@ -93,7 +101,7 @@ curl -X PUT \
             "modify.user":"<modify_user_name>"
         }
     }' \
-    http://<FQDN>:27080/dev/l1_signal_element/<string:_id>
+    http://<FQDN>:27080/<db_name>/l1_signal_element/<string:_id>
 ```
 
 Note: RIFM will add create datetime automatically.
@@ -111,7 +119,7 @@ curl -X PUT \
             "storage_path":"<update_file_storage_path>"
         }
     }' \
-    http://<FQDN>:27080/dev/l1_signal_element/<string:_id>
+    http://<FQDN>:27080/<db_name>/l1_signal_element/<string:_id>
 ```
 
 Note: You can update one or more fields at a time. But update modify user always.
@@ -119,7 +127,7 @@ Note: You can update one or more fields at a time. But update modify user always
 - Delete one document by '_id' Using 'DELETE'
 
 ```(cmd)
-curl -X DELETE http://<FQDN>:27080/dev/l1_signal_element/<string:_id>
+curl -X DELETE http://<FQDN>:27080/<db_name>/l1_signal_element/<string:_id>
 ```
 
 ### **Control Frame (2nd Level)**
@@ -155,7 +163,15 @@ curl -X POST \
             "user":"<create_user_name>"
         }
     }' \
-    http://<FQDN>:27080/dev/l2_control_frame
+    http://<FQDN>:27080/<db_name>/l2_control_frame
+```
+
+Note: RIFM will add create datetime automatically.
+
+- Find one document by '_id'
+
+```(cmd)
+curl -X GET http://<FQDN>:27080/<db_name>/l2_control_frame/<string:_id>
 ```
 
 - Update some fields in one document using 'PUT'
@@ -170,7 +186,7 @@ curl -X PUT \
             "modify.user":"<modify_user_name>"
         }
     }' \
-    http://<FQDN>:27080/dev/l2_control_frame/<string:_id>
+    http://<FQDN>:27080/<db_name>/l2_control_frame/<string:_id>
 ```
 
 Note: RIFM will add create datetime automatically.
@@ -186,7 +202,7 @@ curl -X PUT \
             "storage_path":"<update_file_storage_path>"
         }
     }' \
-    http://<FQDN>:27080/dev/l2_control_frame/<string:_id>
+    http://<FQDN>:27080/<db_name>/l2_control_frame/<string:_id>
 ```
 
 Note: You can update one or more fields at a time. But update modify user always.
@@ -194,7 +210,7 @@ Note: You can update one or more fields at a time. But update modify user always
 - Delete one document by '_id' Using 'DELETE'
 
 ```(cmd)
-curl -X DELETE http://<FQDN>:27080/dev/l2_control_frame/<string:_id>
+curl -X DELETE http://<FQDN>:27080/<db_name>/l2_control_frame/<string:_id>
 ```
 
 ### **IP Data (2nd Level)**
@@ -266,10 +282,16 @@ curl -X POST \
             "user":"<create_user_name>"
         }
     }' \
-    http://<FQDN>:27080/dev/l2_ip_data
+    http://<FQDN>:27080/<db_name>/l2_ip_data
 ```
 
 Note: RIFM will add create datetime automatically.
+
+- Find one document by '_id'
+
+```(cmd)
+curl -X GET http://<FQDN>:27080/<db_name>/l2_ip_data/<string:_id>
+```
 
 - Update some fields in one document using 'PUT'
 
@@ -285,7 +307,7 @@ curl -X PUT \
             "modify.user":"<modify_user_name>"
         }
     }' \
-    http://<FQDN>:27080/dev/l2_ip_data/<string:_id>
+    http://<FQDN>:27080/<db_name>/l2_ip_data/<string:_id>
 ```
 
 Note: RIFM will add create datetime automatically.
@@ -303,7 +325,7 @@ curl -X PUT \
             "storage_path":"<update_file_storage_path>",
         }
     }' \
-    http://<FQDN>:27080/dev/l2_ip_data/<string:_id>
+    http://<FQDN>:27080/<db_name>/l2_ip_data/<string:_id>
 ```
 
 Note: You can update one or more fields at a time. But update modify user always.
@@ -311,7 +333,7 @@ Note: You can update one or more fields at a time. But update modify user always
 - Delete one document by '_id' Using 'DELETE'
 
 ```(cmd)
-curl -X DELETE http://<FQDN>:27080/dev/l2_ip_data/<string:_id>
+curl -X DELETE http://<FQDN>:27080/<db_name>/l2_ip_data/<string:_id>
 ```
 
 ### **E-mail (3rd Level)**
@@ -352,10 +374,16 @@ curl -X POST \
             "user":"<create_user_name>"
         }
     }' \
-    http://<FQDN>:27080/dev/l3_email
+    http://<FQDN>:27080/<db_name>/l3_email
 ```
 
-Note: RIFM will add create/modify datetime automatically.
+Note: RIFM will add create datetime automatically.
+
+- Find one document by '_id'
+
+```(cmd)
+curl -X GET http://<FQDN>:27080/<db_name>/l3_email/<string:_id>
+```
 
 - Update some fields in one document using 'PUT'
 
@@ -371,7 +399,7 @@ curl -X PUT \
             "modify.user":"<modify_user_name>"
         }
     }' \
-    http://<FQDN>:27080/dev/l3_email/<string:_id>
+    http://<FQDN>:27080/<db_name>/l3_email/<string:_id>
 ```
 
 Note: RIFM will add create/modify datetime automatically.
@@ -389,7 +417,7 @@ curl -X PUT \
             "stroage_path":"<update_file_storage_path>",
         }
     }' \
-    http://<FQDN>:27080/dev/l3_email/<string:_id>
+    http://<FQDN>:27080/<db_name>/l3_email/<string:_id>
 ```
 
 Note: You can update one or more fields at a time. But update modify user always.
@@ -397,7 +425,7 @@ Note: You can update one or more fields at a time. But update modify user always
 - Delete one document by '_id' Using 'DELETE'
 
 ```(cmd)
-curl -X DELETE http://<FQDN>:27080/dev/l3_email/<string:_id>
+curl -X DELETE http://<FQDN>:27080/<db_name>/l3_email/<string:_id>
 ```
 
 ### **HTTP (3rd Level)**
@@ -435,10 +463,16 @@ curl -X POST \
             "user":"<create_user_name>"
         }
     }' \
-    http://<FQDN>:27080/dev/l3_http
+    http://<FQDN>:27080/<db_name>/l3_http
 ```
 
-Note: RIFM will add create/modify datetime automatically.
+Note: RIFM will add create datetime automatically.
+
+- Find one document by '_id'
+
+```(cmd)
+curl -X GET http://<FQDN>:27080/<db_name>/l3_http/<string:_id>
+```
 
 - Update some fields in one document using 'PUT'
 
@@ -451,7 +485,7 @@ curl -X PUT \
             "modify.user":"<modify_user_name>"
         }
     }' \
-    http://<FQDN>:27080/dev/l3_http/<string:_id>
+    http://<FQDN>:27080/<db_name>/l3_http/<string:_id>
 ```
 
 or
@@ -468,7 +502,7 @@ curl -X PUT \
             "modify.user":"<modify_user_name>"
         }
     }' \
-    http://<FQDN>:27080/dev/l3_http/<string:_id>
+    http://<FQDN>:27080/<db_name>/l3_http/<string:_id>
 ```
 
 Note: You can update one or more fields at a time. But update modify user always.
@@ -476,7 +510,7 @@ Note: You can update one or more fields at a time. But update modify user always
 - Delete one document by '_id' Using 'DELETE'
 
 ```(cmd)
-curl -X DELETE http://<FQDN>:27080/dev/l3_http/<string:_id>
+curl -X DELETE http://<FQDN>:27080/<db_name>/l3_http/<string:_id>
 ```
 
 ## TODO
