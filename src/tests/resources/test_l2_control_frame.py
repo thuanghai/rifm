@@ -57,6 +57,7 @@ def test_post(client):
         'src_id':test_src_id,
         'type': '0xDD',
         'storage_path': '/vol/data/control_frame/test_control-frame_file',
+        'time_stamp':'input_your_time_stamp',
         'create': {
             'user':'test'
         }

@@ -3,15 +3,16 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 
 def db_connect(
-    mongo_cfg: dict(type=tuple, help='MongoDB host and port'),
-    db_name: dict(type=str, help='MongoDB database name')):
+    # mongo_cfg: dict(type=tuple, help='MongoDB host and port'),
+    db_host: dict(type=str, help='MongoDB database host'),
+    db_port: dict(type=str, help='MongoDB database port'),
+    db_name: dict(type=str, help='MongoDB database name')
+):
     """
     Connect mongodb servery
     """
     # Make a connection with 'MongoClient'
-    # 'mongo_cfg[0]' is mongodb server host
-    # 'mongo_cfg[1]' is mongodb server port
-    client =  MongoClient(mongo_cfg[0], mongo_cfg[1])
+    client =  MongoClient(db_host, db_port)
     # Get database with name 'db_name'
     db = client[db_name]
     return db
@@ -24,7 +25,8 @@ def db_close(client):
     client.close()
 
 def create_one(
-    mongo_cfg: dict(type=tuple, help='MongoDB host and port'),
+    db_host: dict(type=str, help='MongoDB database host'),
+    db_port: dict(type=str, help='MongoDB database port'),
     db_name: dict(type=str, help='MongoDB database name'), 
     collection_name: dict(type=str, help ='MongoDB collection name'), 
     data
@@ -33,7 +35,7 @@ def create_one(
     Insert one document of mongodb
     """
     # Get database
-    db = db_connect(mongo_cfg, db_name)
+    db = db_connect(db_host, db_port, db_name)
     # Get collection
     clt = db[collection_name]
     # Insert one document
@@ -44,21 +46,22 @@ def create_one(
     else:
         return ''
 
-def find_one(
-    db_name: dict(type=str, help='MongoDB database name'),
-    collection_name: dict(type=str, help='MongoDB collection name'),  
-    id
-):
-#     # # Get database
-#     # db = db_connect(db_name)
-#     # # Get collection
-#     # clt = db[collection_name]
-#     # # Find document by 'id'
-#     # return clt.find_one({'_id': ObjectId(id)})
-    pass
+# def find_one(
+#     db_name: dict(type=str, help='MongoDB database name'),
+#     collection_name: dict(type=str, help='MongoDB collection name'),  
+#     id
+# ):
+# #     # # Get database
+# #     # db = db_connect(db_name)
+# #     # # Get collection
+# #     # clt = db[collection_name]
+# #     # # Find document by 'id'
+# #     # return clt.find_one({'_id': ObjectId(id)})
+#     pass
 
 def update_one(
-    mongo_cfg: dict(type=tuple, help='MongoDB host and port'),
+    db_host: dict(type=str, help='MongoDB database host'),
+    db_port: dict(type=str, help='MongoDB database port'),
     db_name: dict(type=str, help='MongoDB database name'), 
     collection_name: dict(type=str, help='MongoDB collection name'), 
     data: dict(type=str, help='String for JSON data expression'),
@@ -68,7 +71,7 @@ def update_one(
     Update one document field
     """
     # Get database
-    db = db_connect(mongo_cfg, db_name)
+    db = db_connect(db_host, db_port, db_name)
     # Get collection
     clt = db[collection_name]
     # Update and check result
@@ -81,13 +84,14 @@ def update_one(
         return False
 
 def delete_one(
-    mongo_cfg: dict(type=tuple, help='MongoDB host and port'),
+    db_host: dict(type=str, help='MongoDB database host'),
+    db_port: dict(type=str, help='MongoDB database port'),
     db_name: dict(type=str, help='MongoDB database name'), 
     collection_name: dict(type=str, help ='MongoDB collection name'), 
     data_id: dict(type=str, help='MongoDB document id')
 ):
     # Get database
-    db = db_connect(mongo_cfg, db_name)
+    db = db_connect(db_host, db_port, db_name)
     # Get collection
     clt = db[collection_name]
     # Insert one document

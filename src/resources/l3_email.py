@@ -23,19 +23,23 @@ class Email(Resource):
 # | Field(L1)       | Field(L2) | Description                            |
 # | --------------- | --------- | -------------------------------------- |
 # | _id             |           | <datatime+business_type+serial_number> |
+# | src_id          |           | <source_data_id(l2_ip_data id)>        |
 # | title           |           | <email_title>                          |
 # | from            |           | <from_address>                         |
 # | to              |           | <to_address>                           |
 # | attachment_tpye |           | <attachment_type> (exp.:pdf)           |
 # | storage_path    |           | <file_storage_path>                    |
+# | time_stamp      |           | <time_stamp_value>                     |
 # | create          | user      | <create_user_name>                     |
 # |                 | time      | <create_date_time>                     |
 # | modify          | user      | <modify_user_name>                     |
 # |                 | time      | <modify_date_time>                     |
 
     def __init__(self, **kwargs):
-        self.mongo_cfg = kwargs['mongo_cfg']
-        self.db_name = 'dev'
+        mongo_cfg = kwargs['mongo_cfg']
+        self.db_host = mongo_cfg[0]
+        self.db_port = mongo_cfg[1]
+        self.db_name = mongo_cfg[2]
         self.collection_name = 'l3_email'
 
     def post(self):
@@ -47,10 +51,9 @@ class Email(Resource):
         # check and add create time
         data = dtcheck.check_create(request.get_json())
         # write to database
-        # self.mongo_cfg[0] is mongodb server host
-        # self.mongo_cfg[1] is mongodb server port
         result = dbcrud.create_one(
-            self.mongo_cfg,
+            self.db_host,
+            self.db_port,
             self.db_name,
             self.collection_name,
             data)
@@ -79,10 +82,9 @@ class Email(Resource):
         # check and add update time
         data = dtcheck.check_modify(request.get_json())
         # write to database
-        # self.mongo_cfg[0] is mongodb server host
-        # self.mongo_cfg[1] is mongodb server port
         result = dbcrud.update_one(
-            self.mongo_cfg,
+            self.db_host,
+            self.db_port,
             self.db_name,
             self.collection_name,
             data,
@@ -99,10 +101,9 @@ class Email(Resource):
         if request.method != 'DELETE':
             abort(405)
         # write to database
-        # self.mongo_cfg[0] is mongodb server host
-        # self.mongo_cfg[1] is mongodb server port
         result = dbcrud.delete_one(
-            self.mongo_cfg,
+            self.db_host,
+            self.db_port,
             self.db_name,
             self.collection_name,
             data_id)

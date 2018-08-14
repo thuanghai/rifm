@@ -69,6 +69,7 @@ def test_post(client):
         'time_stamp':'time_stamp_value',
         'frame_type':'control-frame or ip-data',
         'storage_path': '/vol/data/signal_element/test_signal-element_file',
+        'time_stamp':'input_your_time_stamp',
         'create': {
             'user':'test'
         }
