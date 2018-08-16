@@ -58,12 +58,21 @@ class ControlFrame(Resource):
         """
         Get control frame data record
         """
-        if data_id is None:
-            # TODO: return list of data
-            pass
+        if request.method != 'GET':
+            abort(405)
+        # find document by '_id'
+        result = dbcrud.find_one(
+            self.db_host,
+            self.db_port,
+            self.db_name,
+            self.collection_name,
+            data_id
+        )
+        if result:
+            # Note1: the type of result is <class 'dict'>
+            return result, 200
         else:
-            # TODO: expose a single data
-            pass
+            return 'None!', 200
 
     def put(self, data_id):
         """
