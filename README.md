@@ -526,11 +526,7 @@ Note: You can update one or more fields at a time. But update modify user always
 - Delete one document by '_id' Using 'DELETE'
 
 ```(cmd)
-<<<<<<< HEAD
-curl -X DELETE http://<FQDN>:27080/dev/l3_http/<string:_id>
-=======
 curl -X DELETE http://<FQDN>:27080/<db_name>/l3_http/<string:_id>
->>>>>>> dev
 ```
 
 ## TODO
