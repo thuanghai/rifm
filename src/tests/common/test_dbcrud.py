@@ -6,9 +6,11 @@
 # Run special test function in the module use command below:
 # > pytest test_dbcrud.py::test_<test_function_name>
 # exp.:
-# > pytest test_dbcrud.py::test_get_mongodb_cfg
 # > pytest test_dbcrud.py::test_db_connect
 # > pytest test_dbcrud.py::test_create_one
+# You can add '-s' for print something writed in the code, command like this:
+# > pytest test_dbcrud.py::test_delete_one -s
+
 import pytest
 
 import sys

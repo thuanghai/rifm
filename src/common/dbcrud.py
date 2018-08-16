@@ -46,18 +46,22 @@ def create_one(
     else:
         return ''
 
-# def find_one(
-#     db_name: dict(type=str, help='MongoDB database name'),
-#     collection_name: dict(type=str, help='MongoDB collection name'),  
-#     id
-# ):
-# #     # # Get database
-# #     # db = db_connect(db_name)
-# #     # # Get collection
-# #     # clt = db[collection_name]
-# #     # # Find document by 'id'
-# #     # return clt.find_one({'_id': ObjectId(id)})
-#     pass
+def find_one(
+    db_host: dict(type=str, help='MongoDB database host'),
+    db_port: dict(type=str, help='MongoDB database port'),
+    db_name: dict(type=str, help='MongoDB database name'), 
+    collection_name: dict(type=str, help='MongoDB collection name'), 
+    data_id: dict(type=str, help='MongoDB document id')
+):
+    """
+    Find one document by its '_id'
+    """
+    # Get database
+    db = db_connect(db_host, db_port, db_name)
+    # Get collection
+    clt = db[collection_name]
+    # Find document by 'id'
+    return clt.find_one({'_id': data_id})
 
 def update_one(
     db_host: dict(type=str, help='MongoDB database host'),

@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 #
+import time
 from datetime import datetime
+
+def get_timestamp():
+    return time.time()
 
 def get_utc_datetime():
     """
