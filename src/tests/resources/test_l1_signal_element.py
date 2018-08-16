@@ -16,38 +16,6 @@ class TestL1SignalElement():
     __test_id = 'test_l1_signal_element-' + str(get_timestamp())
 
 
-<<<<<<< HEAD
-def test_get(client):
-    """
-    Test client get method for null
-    """
-    chkresponse = client.get(url_for('api.l1_signal_element'))
-    assert chkresponse.status_code == 200
-
-def test_post(client):
-    """
-    Test client post method for insert one document
-    """
-    print(sys.path)
-    test_id = str(get_utc_datetime()) + '_signal_element_type_' + str(random.randint(1, 9999999))
-    test_post_data = {
-        '_id':test_id,
-        'satellite':'test_satellite_name',
-        'antenna_id':'test_antenna_id_value',
-        'polarity':'test_polarity_method',
-        'frequency':'test_frequency_value',
-        'modulation_type':'test_modulation_type_value',
-        'modulation_rate':'test_modulation_rate_value',
-        'channel_coding':'test_channel_coding',
-        'data_source_type':'master/vsat station',
-        'demodulator_id':'demodulator_id_value',
-        'time_stamp':'time_stamp_value',
-        'frame_type':'control-frame or ip-data',
-        'storage_path': '/vol/data/signal_element/test_signal-element_file',
-        'time_stamp':'input_your_time_stamp',
-        'create': {
-            'user':'test'
-=======
     def test_post(self, client):
         """
         Test client post method for insert one document
@@ -72,7 +40,6 @@ def test_post(client):
             'create': {
                 'user':'test'
             }
->>>>>>> dev
         }
         # test client request with 'POST' method 
         chkresponse = client.post(
@@ -100,46 +67,6 @@ def test_post(client):
         # the type of chkresponse.data is "<class 'bytes'>"
         assert chkresponse.status_code == 200
 
-<<<<<<< HEAD
-def test_put(client):
-    """
-    Test client put method for update one document
-    """
-    # set update document '_id'
-    test_update_id = '2018-08-07 04:30:32.735908_signal_element_type_4662202'
-    test_put_data = {
-        # # modify record with modify information like 'modify.user'.
-        # '$set': {
-        #     'satellite':'test_satellite_name',
-        #     'storage_path':'/vol/data/control_frame/update_control-frame_file',
-        #     'modify.user':'kowalski'
-        # }
-        # modify record without modify information.
-        '$set': {
-            'satellite':'update_satellite_name_X',
-            'storage_path':'/vol/data/control_frame/update_signal-element_file',
-        }
-    }
-    # You can add some fields directly
-    chkresponse = client.put(
-        url_for('api.l1_signal_element', data_id=test_update_id),
-        json = test_put_data
-    )
-    # Note: How to use 'url_for', you can see this file above or Flask Quick Start.
-    # assert chkresponse.status_code == 417
-    assert chkresponse.status_code == 200
-
-def test_delete(client):
-    """
-    Test client delete method for update one document
-    """
-    # set delete document '_id'
-    test_delete_id = '2018-08-10 03:38:51.049005_signal_element_type_3817977'
-    chkresponse = client.delete(
-        url_for('api.l1_signal_element', data_id=test_delete_id)
-    )
-    assert chkresponse.status_code == 200
-=======
     def test_put(self, client):
         """
         Test client put method for update one document
@@ -181,4 +108,3 @@ def test_delete(client):
             url_for('api.l1_signal_element', data_id = delete_id)
         )
         assert chkresponse.status_code == 200
->>>>>>> dev

@@ -46,20 +46,6 @@ def create_one(
     else:
         return ''
 
-<<<<<<< HEAD
-# def find_one(
-#     db_name: dict(type=str, help='MongoDB database name'),
-#     collection_name: dict(type=str, help='MongoDB collection name'),  
-#     id
-# ):
-# #     # # Get database
-# #     # db = db_connect(db_name)
-# #     # # Get collection
-# #     # clt = db[collection_name]
-# #     # # Find document by 'id'
-# #     # return clt.find_one({'_id': ObjectId(id)})
-#     pass
-=======
 def find_one(
     db_host: dict(type=str, help='MongoDB database host'),
     db_port: dict(type=str, help='MongoDB database port'),
@@ -76,7 +62,6 @@ def find_one(
     clt = db[collection_name]
     # Find document by 'id'
     return clt.find_one({'_id': data_id})
->>>>>>> dev
 
 def update_one(
     db_host: dict(type=str, help='MongoDB database host'),

@@ -15,50 +15,6 @@ class TestL1SignalElement():
     # document '_id' in mongodb during the test
     __test_id = 'test_l2_ip_data-' + str(get_timestamp())
 
-<<<<<<< HEAD
-def test_get(client):
-    """
-    Test client get method for null
-    """
-    chkresponse = client.get(url_for('api.l2_ip_data'))
-    assert chkresponse.status_code == 200
-
-def test_post(client):
-    """
-    Test client post method for insert one document
-    """
-    test_src_id = str(get_utc_datetime()) + '_src-type_' + 'src-serial_number'
-    test_id = str(get_utc_datetime()) + '_ip_data_type_' + str(random.randint(1, 9999999))
-    test_post_data = {
-        '_id':test_id,
-        'src_id':test_src_id,
-        'encrypted':'n',
-        '1st_layer_ip':{
-            'protocol':'ip',
-            'src_ip':'127.0.0.1',
-            'dst_ip':'127.0.0.1',
-            'src_port':'4004',
-            'dst_port':'4004'
-        },
-        '2nd_layer_ip':{
-            'protocol':'tcp',
-            'src_ip':'192.168.1.101',
-            'dst_ip':'192.168.1.102',
-            'src_port':'10001',
-            'dst_port':'10002'
-        },
-        '3rd_layer_ip':{
-            'protocol':'ip',
-            'src_ip':'192.168.2.201',
-            'dst_ip':'192.168.2.202',
-            'src_port':'20001',
-            'dst_port':'20002'
-        },
-        'storage_path':'/vol/data/ip_data/test_ip-data_file',
-        'time_stamp':'input_your_time_stamp',
-        'create': {
-            'user':'test'
-=======
     def test_post(self, client):
         """
         Test client post method for insert one document
@@ -95,7 +51,6 @@ def test_post(client):
             'create': {
                 'user':'test'
             }
->>>>>>> dev
         }
         # test client request with 'POST' method 
         chkresponse = client.post(
@@ -140,27 +95,6 @@ def test_post(client):
                 '3rd_layer_ip.dst':'172.16.2.102'
             }
         }
-<<<<<<< HEAD
-    }
-    # You can add some fields directly
-    chkresponse = client.put(
-        url_for('api.l2_ip_data', data_id=test_update_id),
-        json = test_put_data
-    )
-    # Note: How to use 'url_for', you can see this file above or Flask Quick Start.
-    assert chkresponse.status_code == 200
-
-def test_delete(client):
-    """
-    Test client delete method for update one document
-    """
-    # set delete document '_id'
-    test_delete_id = '2018-08-06 03:45:08.874553_http_type_3236152'
-    chkresponse = client.delete(
-        url_for('api.l2_ip_data', data_id=test_delete_id)
-    )
-    assert chkresponse.status_code == 200
-=======
         # You can add some fields directly
 
         # test client request with 'PUT' method 
@@ -182,4 +116,3 @@ def test_delete(client):
             url_for('api.l2_ip_data', data_id = delete_id)
         )
         assert chkresponse.status_code == 200
->>>>>>> dev

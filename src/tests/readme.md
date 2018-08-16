@@ -1,8 +1,36 @@
-# README
-
-## Abstract
+# TEST README
 
 Test file (*.py) in this directory which I has writed for pytest.
+
+Using this module alone you can use command below:
+
+```(cmd)
+> pytest test_dbcrud.py
+```
+
+Run special test function in the module use command below:
+
+```(cmd)
+> pytest test_dbcrud.py::test_<test_function_name>
+```
+
+exp.:
+
+```(cmd)
+> pytest test_dbcrud.py::test_db_connect
+> pytest test_dbcrud.py::test_create_one
+```
+
+You can add '-s' for print something writed in the code, command like this:
+
+```(cmd)
+> pytest test_dbcrud.py::test_delete_one -s
+```
+
+## Test in 'resource' directory
+
+### Abstract
+
 Test methods are taked into a class. You can check it in pytest document "Group multiple tests in a class".
 
 <https://docs.pytest.org/en/latest/getting-started.html>
@@ -10,7 +38,7 @@ Test methods are taked into a class. You can check it in pytest document "Group 
 And the pytest pulgin 'pytest-flask' is also used here.
 Every method has argument - 'client'.
 
-## Instruction for pytest-flask
+### Instruction for pytest-flask
 
 Although pytest-flask has an application test client for class-based tests like below:
 
