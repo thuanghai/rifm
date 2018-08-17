@@ -12,4 +12,4 @@ class TestingConfig(Config):
     # MongoDB Port
     MONGO_PORT = 27017
     # DB Name
-    MONGO_DB_NAME = 'test'
+    MONGO_DBNAME = 'test'

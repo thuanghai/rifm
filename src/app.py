@@ -29,7 +29,7 @@ def create_app(test_config=None):
 
     mongo_host = app.config.get('MONGO_HOST')
     mongo_port = app.config.get('MONGO_PORT')
-    mongo_db = app.config.get('MONGO_DB_NAME')
+    mongo_db = app.config.get('MONGO_DBNAME')
     """
     <!> 'mongo_cfg' uses 'tuple' type which can be hashed for transfering multiple arguments.
     """
