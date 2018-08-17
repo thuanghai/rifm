@@ -92,4 +92,8 @@ class TestL1SignalElement():
         chkresponse = client.delete(
             url_for('api.l3_http', data_id = delete_id)
         )
+<<<<<<< HEAD
         assert chkresponse.status_code == 200
+=======
+        assert chkresponse.status_code == 200
+>>>>>>> master
