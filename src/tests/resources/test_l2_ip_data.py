@@ -71,7 +71,7 @@ class TestL1SignalElement():
         # set read document '_id'
         find_id = self.__test_id
         # test client request with 'GET' method 
-        chkresponse = client.get(url_for('api.l2_ip_data', data_id = find_id))
+        chkresponse = client.get(url_for('api.l2_ip_data', id = find_id))
         assert chkresponse.status_code == 200
 
     def test_put(self, client):
@@ -99,7 +99,7 @@ class TestL1SignalElement():
 
         # test client request with 'PUT' method 
         chkresponse = client.put(
-            url_for('api.l2_ip_data', data_id = update_id),
+            url_for('api.l2_ip_data', id = update_id),
             json = update_data
         )
         # Note: How to use 'url_for', you can see this file above or Flask Quick Start.
@@ -113,6 +113,6 @@ class TestL1SignalElement():
         delete_id = self.__test_id
         # test client request with 'DELETE' method 
         chkresponse = client.delete(
-            url_for('api.l2_ip_data', data_id = delete_id)
+            url_for('api.l2_ip_data', id = delete_id)
         )
         assert chkresponse.status_code == 200

@@ -127,15 +127,7 @@ Note: You can update one or more fields at a time. But update modify user always
 - Delete one document by '_id' Using 'DELETE'
 
 ```(cmd)
-<<<<<<< HEAD
 curl -X DELETE http://<FQDN>:27080/<db_name>/l1_signal_element/<string:_id>
-=======
-<<<<<<< HEAD
-curl -X DELETE http://<FQDN>:27080/dev/l1_signal_element/<string:_id>
-=======
-curl -X DELETE http://<FQDN>:27080/<db_name>/l1_signal_element/<string:_id>
->>>>>>> dev
->>>>>>> master
 ```
 
 ### **Control Frame (2nd Level)**
@@ -218,15 +210,7 @@ Note: You can update one or more fields at a time. But update modify user always
 - Delete one document by '_id' Using 'DELETE'
 
 ```(cmd)
-<<<<<<< HEAD
 curl -X DELETE http://<FQDN>:27080/<db_name>/l2_control_frame/<string:_id>
-=======
-<<<<<<< HEAD
-curl -X DELETE http://<FQDN>:27080/dev/l2_control_frame/<string:_id>
-=======
-curl -X DELETE http://<FQDN>:27080/<db_name>/l2_control_frame/<string:_id>
->>>>>>> dev
->>>>>>> master
 ```
 
 ### **IP Data (2nd Level)**
@@ -349,15 +333,7 @@ Note: You can update one or more fields at a time. But update modify user always
 - Delete one document by '_id' Using 'DELETE'
 
 ```(cmd)
-<<<<<<< HEAD
 curl -X DELETE http://<FQDN>:27080/<db_name>/l2_ip_data/<string:_id>
-=======
-<<<<<<< HEAD
-curl -X DELETE http://<FQDN>:27080/dev/l2_ip_data/<string:_id>
-=======
-curl -X DELETE http://<FQDN>:27080/<db_name>/l2_ip_data/<string:_id>
->>>>>>> dev
->>>>>>> master
 ```
 
 ### **E-mail (3rd Level)**
@@ -449,15 +425,7 @@ Note: You can update one or more fields at a time. But update modify user always
 - Delete one document by '_id' Using 'DELETE'
 
 ```(cmd)
-<<<<<<< HEAD
 curl -X DELETE http://<FQDN>:27080/<db_name>/l3_email/<string:_id>
-=======
-<<<<<<< HEAD
-curl -X DELETE http://<FQDN>:27080/dev/l3_email/<string:_id>
-=======
-curl -X DELETE http://<FQDN>:27080/<db_name>/l3_email/<string:_id>
->>>>>>> dev
->>>>>>> master
 ```
 
 ### **HTTP (3rd Level)**

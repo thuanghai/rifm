@@ -10,4 +10,6 @@ class Config(object):
     # MongoDB Port
     MONGO_PORT = 27017
     # DB Name
-    MONGO_DBNAME = 'dev'
+    MONGO_DB_NAME = 'dev'
+    # MONGODB URI
+    MONGO_URI = 'mongodb://' + MONGO_HOST + ':' + str(MONGO_PORT) + '/' + MONGO_DB_NAME

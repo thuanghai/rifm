@@ -12,4 +12,6 @@ class TestingConfig(Config):
     # MongoDB Port
     MONGO_PORT = 27017
     # DB Name
-    MONGO_DBNAME = 'test'
+    MONGO_DB_NAME = 'test'
+    # MONGODB URI
+    MONGO_URI = 'mongodb://' + MONGO_HOST + ':' + str(MONGO_PORT) + '/' + MONGO_DB_NAME

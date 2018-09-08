@@ -1,52 +1,14 @@
 # -*- coding: utf-8 -*-
 from flask import (
     abort,
-    request,
-    json,
-    jsonify
+    request
 )
 from flask_restful import (
-    Resource, 
-    # fields, 
-    # marshal_with, 
-    # reqparse
+    Resource
 )
 
-from common import (
-    datetime,
-    dbcrud,
-    dtcheck
-)
-
-# post_parser = reqparse.RequestParser()
-
-# post_parser.add_argument(
-#     'name',
-#     dest='name',
-#     required=True,
-#     help='The name of person',
-# )
-
-# post_parser.add_argument(
-#     'sex',
-#     dest='sex',
-#     help='The sex of person',
-# )
-
-# post_parser.add_argument(
-#     'birth',
-#     dest='birth',
-#     help='The birthday of person',
-# )
-
-# person_fields = {
-#     'id': fields.Integer,
-#     'name': fields.String,
-#     'sex': fields.String,
-#     'birth': fields.DateTime,
-#     'date_created': fields.DateTime,
-#     'date_updated': fields.DateTime,
-# }
+from common import database
+from common import datetime as dt
 
 class Http(Resource):
 
@@ -64,10 +26,6 @@ class Http(Resource):
 # |              | time       | <last_modify_time>                 |
 
     def __init__(self, **kwargs):
-        mongo_cfg = kwargs['mongo_cfg']
-        self.db_host = mongo_cfg[0]
-        self.db_port = mongo_cfg[1]
-        self.db_name = mongo_cfg[2]
         self.collection_name = 'l3_http'
     
     # @marshal_with(person_fields)
@@ -78,74 +36,52 @@ class Http(Resource):
         if request.method != 'POST':
             abort(405)
         # check and add create time
-        data = dtcheck.check_create(request.get_json())
+        data = dt.check_create(request.get_json())
         # write to database
-        result = dbcrud.create_one(
-            self.db_host,
-            self.db_port,
-            self.db_name,
-            self.collection_name,
-            data)
+        result = database.create_one(self.collection_name, data)
         if result:
-            return 'Create success！ ID:' + result, 201
+            return "Create success！ ID:" + str(result), 201
         else:
-            return 'Create failed!', 417
+            return "Create failed!", 417
 
-    def get(self, data_id):
+    def get(self, id):
         """
         Get control frame data record
         """
         if request.method != 'GET':
             abort(405)
         # find document by '_id'
-        result = dbcrud.find_one(
-            self.db_host,
-            self.db_port,
-            self.db_name,
-            self.collection_name,
-            data_id
-        )
+        result = database.find_one(self.collection_name, id)
         if result:
             # Note1: the type of result is <class 'dict'>
             return result, 200
         else:
-            return 'None!', 200
+            return "None!", 200
 
-    def put(self, data_id):
+    def put(self, id):
         """
         Update a single http record
         """
         if request.method != 'PUT':
             abort(405)
         # check and add update time
-        data = dtcheck.check_modify(request.get_json())
+        data = dt.check_modify(request.get_json())
         # write to database
-        result = dbcrud.update_one(
-            self.db_host,
-            self.db_port,
-            self.db_name,
-            self.collection_name,
-            data,
-            data_id)
+        result = database.update_one(self.collection_name, id, data)
         if result == True:
-            return 'Update success!', 200
+            return "Update success!", 200
         else:
-            return 'Update failed！', 417
+            return "Update failed！", 417
 
-    def delete(self, data_id):
+    def delete(self, id):
         """
         Delete a single control frame record
         """
         if request.method != 'DELETE':
             abort(405)
         # write to database
-        result = dbcrud.delete_one(
-            self.db_host,
-            self.db_port,
-            self.db_name,
-            self.collection_name,
-            data_id)
+        result = database.delete_one(self.collection_name, id)
         if result == 1:
-            return 'Delete success!', 200
+            return "Delete success!", 200
         else:
-            return 'Delete failed！', 417
+            return "Delete failed！", 417

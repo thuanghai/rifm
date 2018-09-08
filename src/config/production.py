@@ -12,4 +12,4 @@ class ProductionConfig(Config):
     # MongoDB Port
     MONGO_PORT = 27017
     # DB Name
-    MONGO_DBNAME = 'xxx'
+    MONGO_DB_NAME = 'xxx'

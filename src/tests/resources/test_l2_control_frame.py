@@ -51,7 +51,7 @@ class TestL1SignalElement():
         find_id = self.__test_id
         # test client request with 'GET' method 
         chkresponse = client.get(
-            url_for('api.l2_control_frame', data_id = find_id)
+            url_for('api.l2_control_frame', id = find_id)
         )
         # the type of chkresponse is 'flask.plugin.JSONResponse'
         # the type of chkresponse.data is "<class 'bytes'>"
@@ -80,7 +80,7 @@ class TestL1SignalElement():
 
         # test client request with 'PUT' method 
         chkresponse = client.put(
-            url_for('api.l2_control_frame', data_id = update_id),
+            url_for('api.l2_control_frame', id = update_id),
             json = update_data
         )
         # Note: How to use 'url_for', you can see this file above or Flask Quick Start.
@@ -94,6 +94,6 @@ class TestL1SignalElement():
         delete_id = self.__test_id
         # test client request with 'DELETE' method 
         chkresponse = client.delete(
-            url_for('api.l2_control_frame', data_id = delete_id)
+            url_for('api.l2_control_frame', id = delete_id)
         )
         assert chkresponse.status_code == 200
