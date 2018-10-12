@@ -9,11 +9,11 @@ from flask import url_for
 import sys
 sys.path.append('...')
 from common.datetime import get_timestamp
-from resources.l3_email import Email
+from resources.ip_data import IpData
 
-class TestL1SignalElement():
+class TestIpData():
     # document '_id' in mongodb during the test
-    __test_id = 'test_l3_email-' + str(get_timestamp())
+    __test_id = 'test_ip_data-' + str(get_timestamp())
 
     def test_post(self, client):
         """
@@ -24,18 +24,37 @@ class TestL1SignalElement():
         insert_data = {
             '_id':insert_id,
             'src_id':insert_src_id,
-            'from':'sendname@dev.org',
-            'to':'recv@dev.org',
-            'title':'test-email-title',
-            'storage_path':'/vol/data/email/test_email_file',
+            'encrypted':'n',
+            '1st_layer_ip':{
+                'protocol':'ip',
+                'src_ip':'127.0.0.1',
+                'dst_ip':'127.0.0.1',
+                'src_port':'4004',
+                'dst_port':'4004'
+            },
+            '2nd_layer_ip':{
+                'protocol':'tcp',
+                'src_ip':'192.168.1.101',
+                'dst_ip':'192.168.1.102',
+                'src_port':'10001',
+                'dst_port':'10002'
+            },
+            '3rd_layer_ip':{
+                'protocol':'ip',
+                'src_ip':'192.168.2.201',
+                'dst_ip':'192.168.2.202',
+                'src_port':'20001',
+                'dst_port':'20002'
+            },
+            'storage_path':'/vol/data/ip_data/test_ip-data_file',
             'time_stamp':'input_your_time_stamp',
             'create': {
                 'user':'test'
             }
         }
-        # test client request with 'POST' method
+        # test client request with 'POST' method 
         chkresponse = client.post(
-            url_for('api.l3_email'), 
+            url_for('api.ip_data'), 
             json = insert_data
         )
         # Note:
@@ -52,7 +71,7 @@ class TestL1SignalElement():
         # set read document '_id'
         find_id = self.__test_id
         # test client request with 'GET' method 
-        chkresponse = client.get(url_for('api.l3_email', id = find_id))
+        chkresponse = client.get(url_for('api.ip_data', id = find_id))
         assert chkresponse.status_code == 200
 
     def test_put(self, client):
@@ -63,22 +82,24 @@ class TestL1SignalElement():
         update_id = self.__test_id
         update_data = {
             # # modify record with modify information like 'modify.user'.
-            # '$set':{
-            #     'title':'test_update_title_0806',
-            #     'type':'test_update_type_0806',
-            #     'modify.user':'update_user'
+            # '$set': {
+            #     'encrypted':'y', 
+            #     '3rd_layer_ip.src':'172.16.3.101', 
+            #     '3rd_layer_ip.dst':'172.16.3.102',
+            #     'modify.user':'kowalski'
             #     }
             # modify record without modify information.
-            "$set":{
-                'title':'test_update_title',
-                'type':'test_update_type'
-                }
+            '$set': {
+                'encrypted':'n',
+                '3rd_layer_ip.src':'172.16.2.101',
+                '3rd_layer_ip.dst':'172.16.2.102'
+            }
         }
         # You can add some fields directly
 
-        # test client request with 'PUT' method
+        # test client request with 'PUT' method 
         chkresponse = client.put(
-            url_for('api.l3_email', id = update_id),
+            url_for('api.ip_data', id = update_id),
             json = update_data
         )
         # Note: How to use 'url_for', you can see this file above or Flask Quick Start.
@@ -90,8 +111,8 @@ class TestL1SignalElement():
         """
         # set delete document '_id'
         delete_id = self.__test_id
-        # test client request with 'DELETE' method
+        # test client request with 'DELETE' method 
         chkresponse = client.delete(
-            url_for('api.l3_email', id = delete_id)
+            url_for('api.ip_data', id = delete_id)
         )
         assert chkresponse.status_code == 200

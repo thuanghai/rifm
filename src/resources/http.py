@@ -10,33 +10,35 @@ from flask_restful import (
 from common import database
 from common import datetime as dt
 
-class ControlFrame(Resource):
+class Http(Resource):
 
-# | Field(L1)    | Field(L2) | Description                                          |
-# | ------------ | --------- | ---------------------------------------------------- |
-# | _id          |           | <datatime+business_type+serial_number>               |
-# | src_id       |           | <source_data_id(l1_signal_element id)>               |
-# | type         |           | <frame_type> (exp.:0xDC,0xDD,0x40,6 bytes frame,...) |
-# | storage_path |           | <file_storage_path>                                  |
-# | time_stamp   |           | <time_stamp_value>                                   |
-# | create       | name      | <create_user_name>                                   |
-# |              | time      | <create_date_time>                                   |
-# | modify       | name      | <modify_date_time>                                   |
-# |              | time      | <modify_date_time>                                   |
+# | Field (L1)   | Field (L2) | Description                        |
+# | ------------ | ---------- | ---------------------------------- |
+# | _id          |            | <time+business_type+serial_number> |
+# | src_id       |            | <source_data_id(l2_ip_data id)>    |
+# | title        |            | <http_page_title>                  |
+# | type         |            | <http_file_type>                   |
+# | storage_path |            | <file_storage_path>                |
+# | time_stamp   |            | <time_stamp_value>                 |
+# | create       | user       | <create_user_name>                 |
+# |              | time       | <create_date_time>                 |
+# | modify       | user       | <last_modify_user>                 |
+# |              | time       | <last_modify_time>                 |
 
     def __init__(self, **kwargs):
-        self.collection = 'l2_control_frame'
+        self.collection_name = 'http'
     
+    # @marshal_with(person_fields)
     def post(self):
         """
-        Create single control frame data record
+        Create a single http record
         """
         if request.method != 'POST':
             abort(405)
         # check and add create time
         data = dt.check_create(request.get_json())
         # write to database
-        result = database.create_one(self.collection, data)
+        result = database.create_one(self.collection_name, data)
         if result:
             return "Create success！ ID:" + str(result), 201
         else:
@@ -49,7 +51,7 @@ class ControlFrame(Resource):
         if request.method != 'GET':
             abort(405)
         # find document by '_id'
-        result = database.find_one(self.collection, id)
+        result = database.find_one(self.collection_name, id)
         if result:
             # Note1: the type of result is <class 'dict'>
             return result, 200
@@ -58,14 +60,14 @@ class ControlFrame(Resource):
 
     def put(self, id):
         """
-        Update a single control frame data record
+        Update a single http record
         """
         if request.method != 'PUT':
             abort(405)
-        # check and update time
+        # check and add update time
         data = dt.check_modify(request.get_json())
         # write to database
-        result = database.update_one(self.collection, id, data)
+        result = database.update_one(self.collection_name, id, data)
         if result == True:
             return "Update success!", 200
         else:
@@ -78,7 +80,7 @@ class ControlFrame(Resource):
         if request.method != 'DELETE':
             abort(405)
         # write to database
-        result = database.delete_one(self.collection, id)
+        result = database.delete_one(self.collection_name, id)
         if result == 1:
             return "Delete success!", 200
         else:

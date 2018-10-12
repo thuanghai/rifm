@@ -9,31 +9,33 @@ from flask import url_for
 import sys
 sys.path.append('...')
 from common.datetime import get_timestamp
-from resources.l2_ip_data import IpData
+from resources.email import Email
 
-class TestL1SignalElement():
+class TestEmail():
     # document '_id' in mongodb during the test
-    __test_id = 'test_l2_control_frame-' + str(get_timestamp())
+    __test_id = 'test_email-' + str(get_timestamp())
 
     def test_post(self, client):
         """
         Test client post method for insert one document
         """
         insert_id = self.__test_id
-        insert_src_id = 'test_src_id-'+insert_id
+        insert_src_id = 'test_src_id-' + insert_id
         insert_data = {
             '_id':insert_id,
             'src_id':insert_src_id,
-            'type':'0xDD',
-            'storage_path':'/vol/data/control_frame/test_control-frame_file',
+            'from':'sendname@dev.org',
+            'to':'recv@dev.org',
+            'title':'test-email-title',
+            'storage_path':'/vol/data/email/test_email_file',
             'time_stamp':'input_your_time_stamp',
-            'create':{
+            'create': {
                 'user':'test'
             }
         }
-        # test client request with 'POST' method 
+        # test client request with 'POST' method
         chkresponse = client.post(
-            url_for('api.l2_control_frame'), 
+            url_for('api.email'), 
             json = insert_data
         )
         # Note:
@@ -50,11 +52,7 @@ class TestL1SignalElement():
         # set read document '_id'
         find_id = self.__test_id
         # test client request with 'GET' method 
-        chkresponse = client.get(
-            url_for('api.l2_control_frame', id = find_id)
-        )
-        # the type of chkresponse is 'flask.plugin.JSONResponse'
-        # the type of chkresponse.data is "<class 'bytes'>"
+        chkresponse = client.get(url_for('api.email', id = find_id))
         assert chkresponse.status_code == 200
 
     def test_put(self, client):
@@ -65,22 +63,22 @@ class TestL1SignalElement():
         update_id = self.__test_id
         update_data = {
             # # modify record with modify information like 'modify.user'.
-            # '$set': {
-            #     'type':'0xDC',
-            #     'storage_path':'/vol/data/control_frame/update_control-frame_file',
-            #     'modify.user':'kowalski'
-            # }
+            # '$set':{
+            #     'title':'test_update_title_0806',
+            #     'type':'test_update_type_0806',
+            #     'modify.user':'update_user'
+            #     }
             # modify record without modify information.
-            '$set': {
-                'type':'0xDC',
-                'storage_path':'/vol/data/control_frame/update_control-frame_file',
-            }
+            "$set":{
+                'title':'test_update_title',
+                'type':'test_update_type'
+                }
         }
         # You can add some fields directly
 
-        # test client request with 'PUT' method 
+        # test client request with 'PUT' method
         chkresponse = client.put(
-            url_for('api.l2_control_frame', id = update_id),
+            url_for('api.email', id = update_id),
             json = update_data
         )
         # Note: How to use 'url_for', you can see this file above or Flask Quick Start.
@@ -92,8 +90,8 @@ class TestL1SignalElement():
         """
         # set delete document '_id'
         delete_id = self.__test_id
-        # test client request with 'DELETE' method 
+        # test client request with 'DELETE' method
         chkresponse = client.delete(
-            url_for('api.l2_control_frame', id = delete_id)
+            url_for('api.email', id = delete_id)
         )
         assert chkresponse.status_code == 200

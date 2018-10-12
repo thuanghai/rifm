@@ -38,7 +38,7 @@ Here is my attempt:
 @pytest.mark.usefixtures('client_class')
 class TestL1SignalElement():
     # document '_id' in mongodb during the test
-    __test_id = 'test_l1_signal_element_type-' + str(get_timestamp())
+    __test_id = 'test_signal_element_type-' + str(get_timestamp())
 
     def test_post(self):
         """
@@ -69,7 +69,7 @@ class TestL1SignalElement():
         }
 
         chkresponse = self.client.post(
-            url_for('api.l1_signal_element'),
+            url_for('api.signal_element'),
             json = test_insert_data
         )
         # Note1:

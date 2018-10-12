@@ -13,3 +13,5 @@ class ProductionConfig(Config):
     MONGO_PORT = 27017
     # DB Name
     MONGO_DB_NAME = 'xxx'
+    # MONGODB URI
+    MONGO_URI = 'mongodb://' + MONGO_HOST + ':' + str(MONGO_PORT) + '/' + MONGO_DB_NAME

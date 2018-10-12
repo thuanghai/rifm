@@ -65,11 +65,11 @@ def create_one(
     Insert one document of mongodb
     """
     result = {
-        'l1_signal_element': lambda data: mongo.db.l1_signal_element.insert_one(data),
-        'l2_control_frame': lambda data: mongo.db.l2_control_frame.insert_one(data),
-        'l2_ip_data': lambda data: mongo.db.l2_ip_data.insert_one(data),
-        'l3_email': lambda data: mongo.db.l3_email.insert_one(data),
-        'l3_http': lambda data: mongo.db.l3_http.insert_one(data)
+        'signal_element': lambda data: mongo.db.signal_element.insert_one(data),
+        'control_frame': lambda data: mongo.db.control_frame.insert_one(data),
+        'ip_data': lambda data: mongo.db.ip_data.insert_one(data),
+        'email': lambda data: mongo.db.email.insert_one(data),
+        'http': lambda data: mongo.db.http.insert_one(data)
     }[collection](data)
     if result.acknowledged == True:
         return result.inserted_id
@@ -100,11 +100,11 @@ def find_one(
     Find one document by its '_id'
     """
     result = {
-        'l1_signal_element': lambda id: mongo.db.l1_signal_element.find_one({'_id': id}),
-        'l2_control_frame': lambda id: mongo.db.l2_control_frame.find_one({'_id': id}),
-        'l2_ip_data': lambda id: mongo.db.l2_ip_data.find_one({'_id': id}),
-        'l3_email': lambda id: mongo.db.l3_email.find_one({'_id': id}),
-        'l3_http': lambda id: mongo.db.l3_http.find_one({'_id': id})
+        'signal_element': lambda id: mongo.db.signal_element.find_one({'_id': id}),
+        'control_frame': lambda id: mongo.db.control_frame.find_one({'_id': id}),
+        'ip_data': lambda id: mongo.db.ip_data.find_one({'_id': id}),
+        'email': lambda id: mongo.db.email.find_one({'_id': id}),
+        'http': lambda id: mongo.db.http.find_one({'_id': id})
     }[collection](id)
     return result
 
@@ -140,11 +140,11 @@ def update_one(
     Update one document field
     """
     result = {
-        'l1_signal_element': lambda id, data: mongo.db.l1_signal_element.update_one({'_id': id}, data),
-        'l2_control_frame': lambda id, data: mongo.db.l2_control_frame.update_one({'_id': id}, data),
-        'l2_ip_data': lambda id, data: mongo.db.l2_ip_data.update_one({'_id': id}, data),
-        'l3_email': lambda id, data: mongo.db.l3_email.update_one({'_id': id}, data),
-        'l3_http': lambda id, data: mongo.db.l3_http.update_one({'_id': id}, data)
+        'signal_element': lambda id, data: mongo.db.signal_element.update_one({'_id': id}, data),
+        'control_frame': lambda id, data: mongo.db.control_frame.update_one({'_id': id}, data),
+        'ip_data': lambda id, data: mongo.db.ip_data.update_one({'_id': id}, data),
+        'email': lambda id, data: mongo.db.email.update_one({'_id': id}, data),
+        'http': lambda id, data: mongo.db.http.update_one({'_id': id}, data)
     }[collection](id, data)
     if (result.acknowledged == True) \
         and (result.matched_count == 1) \
@@ -179,11 +179,11 @@ def delete_one(
     Delete one document by id
     """
     result = {
-        'l1_signal_element': lambda id: mongo.db.l1_signal_element.delete_one({'_id': id}),
-        'l2_control_frame': lambda id: mongo.db.l2_control_frame.delete_one({'_id': id}),
-        'l2_ip_data': lambda id: mongo.db.l2_ip_data.delete_one({'_id': id}),
-        'l3_email': lambda id: mongo.db.l3_email.delete_one({'_id': id}),
-        'l3_http': lambda id: mongo.db.l3_http.delete_one({'_id': id})
+        'signal_element': lambda id: mongo.db.signal_element.delete_one({'_id': id}),
+        'control_frame': lambda id: mongo.db.control_frame.delete_one({'_id': id}),
+        'ip_data': lambda id: mongo.db.ip_data.delete_one({'_id': id}),
+        'email': lambda id: mongo.db.email.delete_one({'_id': id}),
+        'http': lambda id: mongo.db.http.delete_one({'_id': id})
     }[collection](id)
     if result.acknowledged == True:
         return result.deleted_count

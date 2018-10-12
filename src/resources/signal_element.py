@@ -33,7 +33,7 @@ class SignalElement(Resource):
 # |                  | time      | <modify_date_time>                               |
 
     def __init__(self, **kwargs):
-        self.collection = 'l1_signal_element'
+        self.collection = 'signal_element'
     
     def post(self):
         """
@@ -46,7 +46,7 @@ class SignalElement(Resource):
         # write to database
         result = database.create_one(self.collection, insert_data)
         if result:
-            return "Create success！ ID:" + str(result), 201
+            return "Create success！ ID:" + str(result), 201 # DOTO: check result using 'str' or 'repr'
         else:
             return "Create failed!", 417
 

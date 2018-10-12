@@ -27,7 +27,7 @@
 
 ## **MongoDB Design And Usage**
 
-### **Signal Element (1st Level)**
+### **Signal Element **
 
 **Collection Design:**
 
@@ -35,13 +35,13 @@
 | ---------------- | --------- | ------------------------------------------------ |
 | _id              |           | <datatime+business_type+serial_number>           |
 | satellite        |           | <satellite_id>                                   |
-| antenna_id       |           | <antenna_id_value>                               |
+| antenna          |           | <antenna_id_value>                               |
 | polarity         |           | <polarity_method>                                |
 | frequency        |           | <frequency_value>                                |
-| modulation_type  |           | <modulation_type_value>                          |
-| modulation_rate  |           | <modulation_rate_value>                          |
+| modulate_type    |           | <modulation_type_value>                          |
+| modulate_rate    |           | <modulation_rate_value>                          |
 | channel_coding   |           | <channel_coding>                                 |
-| data_source_type |           | <data_source_type> (exp.: master/vsat station)   |
+| data_source_type |           | <source_type> (exp.: master/vsat station)        |
 | demodulator_id   |           | <demodulator_id_value>                           |
 | frame_type       |           | <frame_type_value> (exp.: control frame/ip data) |
 | storage_path     |           | <file_storage_path>                              |
@@ -76,7 +76,7 @@ curl -X POST \
             "user":"<create_user_name>"
         }
     }' \
-    http://<FQDN>:27080/<db_name>/l1_signal_element
+    http://<FQDN>:27080/<db_name>/signal_element
 ```
 
 Note: RIFM will add create datetime automatically.
@@ -84,7 +84,7 @@ Note: RIFM will add create datetime automatically.
 - Find one document by '_id'
 
 ```(cmd)
-curl -X GET http://<FQDN>:27080/<db_name>/l1_signal_element/<string:_id>
+curl -X GET http://<FQDN>:27080/<db_name>/signal_element/<string:_id>
 ```
 
 - Update some fields in one document using 'PUT'
@@ -101,7 +101,7 @@ curl -X PUT \
             "modify.user":"<modify_user_name>"
         }
     }' \
-    http://<FQDN>:27080/<db_name>/l1_signal_element/<string:_id>
+    http://<FQDN>:27080/<db_name>/signal_element/<string:_id>
 ```
 
 Note: RIFM will add create datetime automatically.
@@ -119,7 +119,7 @@ curl -X PUT \
             "storage_path":"<update_file_storage_path>"
         }
     }' \
-    http://<FQDN>:27080/<db_name>/l1_signal_element/<string:_id>
+    http://<FQDN>:27080/<db_name>/signal_element/<string:_id>
 ```
 
 Note: You can update one or more fields at a time. But update modify user always.
@@ -127,17 +127,17 @@ Note: You can update one or more fields at a time. But update modify user always
 - Delete one document by '_id' Using 'DELETE'
 
 ```(cmd)
-curl -X DELETE http://<FQDN>:27080/<db_name>/l1_signal_element/<string:_id>
+curl -X DELETE http://<FQDN>:27080/<db_name>/signal_element/<string:_id>
 ```
 
-### **Control Frame (2nd Level)**
+### ** Frame (2nd Level)**
 
 **Collection Design:**
 
 | Field(L1)    | Field(L2) | Description                                          |
 | ------------ | --------- | ---------------------------------------------------- |
 | _id          |           | <datatime+business_type+serial_number>               |
-| src_id       |           | <source_data_id(l1_signal_element id)>               |
+| src_id       |           | <source_data_id(signal_element_id)>                  |
 | type         |           | <frame_type> (exp.:0xDC,0xDD,0x40,6 bytes frame,...) |
 | storage_path |           | <file_storage_path>                                  |
 | time_stamp   |           | <time_stamp_value>                                   |
@@ -155,7 +155,7 @@ curl -X POST \
     -H "Content-Type:application/json" \
     -d '{
         "_id":"<time+business_type+sn>",
-        "src_id":"<source_id_data(Level1)>",
+        "src_id":"<source_id_data>",
         "type":"<frame_type>",
         "storage_path":"<file_storage_path>",
         "time_stamp":"<time_stamp_value>",
@@ -163,7 +163,7 @@ curl -X POST \
             "user":"<create_user_name>"
         }
     }' \
-    http://<FQDN>:27080/<db_name>/l2_control_frame
+    http://<FQDN>:27080/<db_name>/control_frame
 ```
 
 Note: RIFM will add create datetime automatically.
@@ -171,7 +171,7 @@ Note: RIFM will add create datetime automatically.
 - Find one document by '_id'
 
 ```(cmd)
-curl -X GET http://<FQDN>:27080/<db_name>/l2_control_frame/<string:_id>
+curl -X GET http://<FQDN>:27080/<db_name>/control_frame/<string:_id>
 ```
 
 - Update some fields in one document using 'PUT'
@@ -186,7 +186,7 @@ curl -X PUT \
             "modify.user":"<modify_user_name>"
         }
     }' \
-    http://<FQDN>:27080/<db_name>/l2_control_frame/<string:_id>
+    http://<FQDN>:27080/<db_name>/control_frame/<string:_id>
 ```
 
 Note: RIFM will add create datetime automatically.
@@ -202,7 +202,7 @@ curl -X PUT \
             "storage_path":"<update_file_storage_path>"
         }
     }' \
-    http://<FQDN>:27080/<db_name>/l2_control_frame/<string:_id>
+    http://<FQDN>:27080/<db_name>/control_frame/<string:_id>
 ```
 
 Note: You can update one or more fields at a time. But update modify user always.
@@ -210,39 +210,30 @@ Note: You can update one or more fields at a time. But update modify user always
 - Delete one document by '_id' Using 'DELETE'
 
 ```(cmd)
-curl -X DELETE http://<FQDN>:27080/<db_name>/l2_control_frame/<string:_id>
+curl -X DELETE http://<FQDN>:27080/<db_name>/control_frame/<string:_id>
 ```
 
 ### **IP Data (2nd Level)**
 
 **Collection Design:**
 
-| Field(L1)    | Field(L2) | Description                            |
-| ------------ | --------- | -------------------------------------- |
-| _id          |           | <datatime+business_type+serial_number> |
-| src_id       |           | <source_data_id(l1_signal_element id)> |
-| encrypted    |           | <y/n>                                  |
-| 1st_layer_ip | protocol  | <network_protocol>                     |
-|              | src_ip    | <src_ip>                               |
-|              | dst_ip    | <dst_ip>                               |
-|              | src_port  | <src_port>                             |
-|              | dst_port  | <dst_port>                             |
-| 2nd_layer_ip | protocol  | <network_protocol>                     |
-|              | src_ip    | <src_ip>                               |
-|              | dst_ip    | <dst_ip>                               |
-|              | src_port  | <src_port>                             |
-|              | dst_port  | <dst_port>                             |
-| 3rd_layer_ip | protocol  | <network_protocol>                     |
-|              | src_ip    | <src_ip>                               |
-|              | dst_ip    | <dst_ip>                               |
-|              | src_port  | <src_port>                             |
-|              | dst_port  | <dst_port>                             |
-| storage_path |           | <file_storage_path>                    |
-| time_stamp   |           | <time_stamp_value>                     |
-| create       | user      | <create_user_name>                     |
-|              | time      | <create_date_time>                     |
-| modify       | user      | <modify_user_name>                     |
-|              | time      | <modify_date_time>                     |
+| Field(L1)       | Field(L2) | Description                            |
+| --------------- | --------- | -------------------------------------- |
+| _id             |           | <datatime+business_type+serial_number> |
+| src_id          |           | <source_data_id(signal_element_id)>    |
+| embedded_src_id |           | <embedded_src_ip_packet_record_id>     |
+| encrypted       |           | <y/n>                                  |
+| protocol        |           | <network_protocol>                     |
+| src_ip          |           | <src_ip>                               |
+| dst_ip          |           | <dst_ip>                               |
+| src_port        |           | <src_port>                             |
+| dst_port        |           | <dst_port>                             |
+| storage_path    |           | <file_storage_path>                    |
+| time_stamp      |           | <time_stamp_value>                     |
+| create          | user      | <create_user_name>                     |
+|                 | time      | <create_date_time>                     |
+| modify          | user      | <modify_user_name>                     |
+|                 | time      | <modify_date_time>                     |
 
 **Usage:**
 
@@ -253,36 +244,21 @@ curl -X POST \
     -H "Content-Type:application/json" \
     -d '{
         "_id":"<time+business_type+sn>",
-        "src_id":"<source_id_data(Level1)>",
+        "src_id":"<source_id_data>",
+        "embedded_src_id":"<embedded_id>",
         "encrypted":"<y/n>",
-        "1st_layer_ip": {
-            "protocol":"<network_protocol>",
-            "src_ip":"<src_ip>",
-            "dst_ip":"<dst_ip>",
-            "src_port":"<src_port>",
-            "dst_port":"<dst_port>"
-        },
-        "2nd_layer_ip": {
-            "protocol":"<network_protocol>",
-            "src_ip":"<src_ip>",
-            "dst_ip":"<dst_ip>",
-            "src_port":"<src_port>",
-            "dst_port":"<dst_port>"
-        },
-        "3rd_layer_ip": {
-            "protocol":"<network_protocol>",
-            "src_ip":"<src_ip>",
-            "dst_ip":"<dst_ip>",
-            "src_port":"<src_port>",
-            "dst_port":"<dst_port>"
-        },
+        "protocol":"<network_protocol>",
+        "src_ip":"<src_ip>",
+        "dst_ip":"<dst_ip>",
+        "src_port":"<src_port>",
+        "dst_port":"<dst_port>",
         "storage_path":"<file_storage_path>",
         "time_stamp":"<time_stamp_value">,
         "create": {
             "user":"<create_user_name>"
         }
     }' \
-    http://<FQDN>:27080/<db_name>/l2_ip_data
+    http://<FQDN>:27080/<db_name>/ip_data
 ```
 
 Note: RIFM will add create datetime automatically.
@@ -290,7 +266,7 @@ Note: RIFM will add create datetime automatically.
 - Find one document by '_id'
 
 ```(cmd)
-curl -X GET http://<FQDN>:27080/<db_name>/l2_ip_data/<string:_id>
+curl -X GET http://<FQDN>:27080/<db_name>/ip_data/<string:_id>
 ```
 
 - Update some fields in one document using 'PUT'
@@ -300,14 +276,14 @@ curl -X PUT \
     -H "Content-Type:application/json" \
     -d '{
         "$set": {
-            "1st_layer_ip.protocol":"<network_protocol>",
-            "1st_layer_ip.src_ip":"<update_ip_address>",
-            "1st_layer_ip.dst_ip":"<update_ip_address>",
+            "protocol":"<network_protocol>",
+            "src_ip":"<update_ip_address>",
+            "dst_ip":"<update_ip_address>",
             "storage_path":"<update_file_storage_path>",
             "modify.user":"<modify_user_name>"
         }
     }' \
-    http://<FQDN>:27080/<db_name>/l2_ip_data/<string:_id>
+    http://<FQDN>:27080/<db_name>/ip_data/<string:_id>
 ```
 
 Note: RIFM will add create datetime automatically.
@@ -319,13 +295,13 @@ curl -X PUT \
     -H "Content-Type:application/json" \
     -d '{
         "$set": {
-            "3rd_layer_ip.protocol":"<network_protocol>",
-            "3rd_layer_ip.src_ip":"<update_ip_address>",
-            "3rd_layer_ip.dst_ip":"<update_ip_address>",
+            "protocol":"<network_protocol>",
+            "src_ip":"<update_ip_address>",
+            "dst_ip":"<update_ip_address>",
             "storage_path":"<update_file_storage_path>",
         }
     }' \
-    http://<FQDN>:27080/<db_name>/l2_ip_data/<string:_id>
+    http://<FQDN>:27080/<db_name>/ip_data/<string:_id>
 ```
 
 Note: You can update one or more fields at a time. But update modify user always.
@@ -333,7 +309,7 @@ Note: You can update one or more fields at a time. But update modify user always
 - Delete one document by '_id' Using 'DELETE'
 
 ```(cmd)
-curl -X DELETE http://<FQDN>:27080/<db_name>/l2_ip_data/<string:_id>
+curl -X DELETE http://<FQDN>:27080/<db_name>/ip_data/<string:_id>
 ```
 
 ### **E-mail (3rd Level)**
@@ -343,7 +319,7 @@ curl -X DELETE http://<FQDN>:27080/<db_name>/l2_ip_data/<string:_id>
 | Field(L1)       | Field(L2) | Description                            |
 | --------------- | --------- | -------------------------------------- |
 | _id             |           | <datatime+business_type+serial_number> |
-| src_id          |           | <source_data_id(l2_ip_data id)>        |
+| src_id          |           | <source_data_id(ip_data_id)>           |
 | title           |           | <email_title>                          |
 | from            |           | <from_address>                         |
 | to              |           | <to_address>                           |
@@ -364,7 +340,7 @@ curl -X POST \
     -H "Content-Type:application/json" \
     -d '{
         "_id":"<time+business_type+sn>",
-        "src_id":"<source_id_data(Level2)>",
+        "src_id":"<source_id_data>",
         "from":"<from_addresss>",
         "to":"<to_address>",
         "title":"<email_title>",
@@ -374,7 +350,7 @@ curl -X POST \
             "user":"<create_user_name>"
         }
     }' \
-    http://<FQDN>:27080/<db_name>/l3_email
+    http://<FQDN>:27080/<db_name>/email
 ```
 
 Note: RIFM will add create datetime automatically.
@@ -382,7 +358,7 @@ Note: RIFM will add create datetime automatically.
 - Find one document by '_id'
 
 ```(cmd)
-curl -X GET http://<FQDN>:27080/<db_name>/l3_email/<string:_id>
+curl -X GET http://<FQDN>:27080/<db_name>/email/<string:_id>
 ```
 
 - Update some fields in one document using 'PUT'
@@ -399,7 +375,7 @@ curl -X PUT \
             "modify.user":"<modify_user_name>"
         }
     }' \
-    http://<FQDN>:27080/<db_name>/l3_email/<string:_id>
+    http://<FQDN>:27080/<db_name>/email/<string:_id>
 ```
 
 Note: RIFM will add create/modify datetime automatically.
@@ -417,7 +393,7 @@ curl -X PUT \
             "stroage_path":"<update_file_storage_path>",
         }
     }' \
-    http://<FQDN>:27080/<db_name>/l3_email/<string:_id>
+    http://<FQDN>:27080/<db_name>/email/<string:_id>
 ```
 
 Note: You can update one or more fields at a time. But update modify user always.
@@ -425,7 +401,7 @@ Note: You can update one or more fields at a time. But update modify user always
 - Delete one document by '_id' Using 'DELETE'
 
 ```(cmd)
-curl -X DELETE http://<FQDN>:27080/<db_name>/l3_email/<string:_id>
+curl -X DELETE http://<FQDN>:27080/<db_name>/email/<string:_id>
 ```
 
 ### **HTTP (3rd Level)**
@@ -435,7 +411,7 @@ curl -X DELETE http://<FQDN>:27080/<db_name>/l3_email/<string:_id>
 | Field (L1)   | Field (L2) | Description                        |
 | ------------ | ---------- | ---------------------------------- |
 | _id          |            | <time+business_type+serial_number> |
-| src_id       |            | <source_data_id(l2_ip_data id)>    |
+| src_id       |            | <source_data_id(ip_data_id)>       |
 | title        |            | <http_page_title>                  |
 | type         |            | <http_file_type>                   |
 | storage_path |            | <file_storage_path>                |
@@ -454,7 +430,7 @@ curl -X POST \
     -H "Content-Type:application/json" \
     -d '{
         "_id":"<time+business_type+serial_number>",
-        "src_id":"<source_id_data(Level2)>",
+        "src_id":"<source_id_data>",
         "title":"<http_page_title>",
         "type":"<http_file_type>",
         "storage_path":"<file_storage_path>",
@@ -463,7 +439,7 @@ curl -X POST \
             "user":"<create_user_name>"
         }
     }' \
-    http://<FQDN>:27080/<db_name>/l3_http
+    http://<FQDN>:27080/<db_name>/http
 ```
 
 Note: RIFM will add create datetime automatically.
@@ -471,7 +447,7 @@ Note: RIFM will add create datetime automatically.
 - Find one document by '_id'
 
 ```(cmd)
-curl -X GET http://<FQDN>:27080/<db_name>/l3_http/<string:_id>
+curl -X GET http://<FQDN>:27080/<db_name>/http/<string:_id>
 ```
 
 - Update some fields in one document using 'PUT'
@@ -485,7 +461,7 @@ curl -X PUT \
             "modify.user":"<modify_user_name>"
         }
     }' \
-    http://<FQDN>:27080/<db_name>/l3_http/<string:_id>
+    http://<FQDN>:27080/<db_name>/http/<string:_id>
 ```
 
 or
@@ -502,7 +478,7 @@ curl -X PUT \
             "modify.user":"<modify_user_name>"
         }
     }' \
-    http://<FQDN>:27080/<db_name>/l3_http/<string:_id>
+    http://<FQDN>:27080/<db_name>/http/<string:_id>
 ```
 
 Note: You can update one or more fields at a time. But update modify user always.
@@ -510,11 +486,9 @@ Note: You can update one or more fields at a time. But update modify user always
 - Delete one document by '_id' Using 'DELETE'
 
 ```(cmd)
-curl -X DELETE http://<FQDN>:27080/<db_name>/l3_http/<string:_id>
+curl -X DELETE http://<FQDN>:27080/<db_name>/http/<string:_id>
 ```
 
 ## TODO
 
-- GET function
-- Think about Import Flask-Pymongo
-- Think about mongodb 'close()' or use one instance connection.
+- Import ODM for pymongo

@@ -28,7 +28,7 @@ class Email(Resource):
 # |                 | time      | <modify_date_time>                     |
 
     def __init__(self, **kwargs):
-        self.collection_name = 'l3_email'
+        self.collection_name = 'email'
 
     def post(self):
         """

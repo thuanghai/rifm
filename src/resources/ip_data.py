@@ -40,7 +40,7 @@ class IpData(Resource):
 # |              | time      | <modify_date_time>                     |
 
     def __init__(self, **kwargs):
-        self.collection = 'l2_ip_data'
+        self.collection = 'ip_data'
     
     def post(self):
         """

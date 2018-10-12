@@ -14,11 +14,11 @@ from flask_pymongo import PyMongo
 from config import load_config
 from common import database
 from resources import (
-    l1_signal_element,
-    l2_control_frame,
-    l2_ip_data,
-    l3_http,
-    l3_email
+    signal_element,
+    control_frame,
+    ip_data,
+    http,
+    email
 )
 
 def create_app(config):
@@ -32,56 +32,56 @@ def create_app(config):
     api = Api(api_bp)
     # get database name
     db_name = config.MONGO_DB_NAME
-    # set route for 'l1_signal_element' function
-    mongo_clt = 'l1_signal_element'
+    # set route for 'signal_element' function
+    mongo_clt = 'signal_element'
     path1 = '/' + db_name + '/' + mongo_clt
     path2 = path1 + '/<string:id>'
     api.add_resource(
-        l1_signal_element.SignalElement,
-        path1, # '/<db_name>/l1_signal_element',
-        path2, # '/<db_name/l1_signal_element/<string:id>',
-        endpoint=mongo_clt, #'l1_signal_element',
+        signal_element.SignalElement,
+        path1, # '/<db_name>/signal_element',
+        path2, # '/<db_name/signal_element/<string:id>',
+        endpoint=mongo_clt, #'signal_element',
         # resource_class_kwargs={'mongo_cfg': mongo}
     )
-    # set route for 'l2_control_frame' function
-    mongo_clt = 'l2_control_frame'
+    # set route for 'control_frame' function
+    mongo_clt = 'control_frame'
     path1 = '/' + db_name + '/' + mongo_clt
     path2 = path1 + '/<string:id>'
     api.add_resource(
-        l2_control_frame.ControlFrame,
-        path1, # '/dev/l2_control_frame',
-        path2, # '/dev/l2_control_frame/<string:id>',
-        endpoint=mongo_clt, # 'l2_control_frame',
+        control_frame.ControlFrame,
+        path1, # '/dev/control_frame',
+        path2, # '/dev/control_frame/<string:id>',
+        endpoint=mongo_clt, # 'control_frame',
     )
-    # set route for 'l2_ip_data' function
-    mongo_clt = 'l2_ip_data'
+    # set route for 'ip_data' function
+    mongo_clt = 'ip_data'
     path1 = '/' + db_name + '/' + mongo_clt
     path2 = path1 + '/<string:id>'
     api.add_resource(
-        l2_ip_data.IpData,
-        path1, # '/dev/l2_ip_data',
-        path2, # '/dev/l2_ip_data/<string:id>',
-        endpoint=mongo_clt, # 'l2_ip_data',
+        ip_data.IpData,
+        path1, # '/dev/ip_data',
+        path2, # '/dev/ip_data/<string:id>',
+        endpoint=mongo_clt, # 'ip_data',
     )
-    # set route for 'l3_http' function
-    mongo_clt = 'l3_http'
+    # set route for 'http' function
+    mongo_clt = 'http'
     path1 = '/' + db_name + '/' + mongo_clt
     path2 = path1 + '/<string:id>'
     api.add_resource(
-        l3_http.Http,
-        path1, # '/dev/l3_http',
-        path2, # '/dev/l3_http/<string:id>',
-        endpoint=mongo_clt, # 'l3_http',
+        http.Http,
+        path1, # '/dev/http',
+        path2, # '/dev/http/<string:id>',
+        endpoint=mongo_clt, # 'http',
     )
-    # set route for 'l3_email' function
-    mongo_clt = 'l3_email'
+    # set route for 'email' function
+    mongo_clt = 'email'
     path1 = '/' + db_name + '/' + mongo_clt
     path2 = path1 + '/<string:id>'
     api.add_resource(
-        l3_email.Email,
-        path1, # '/dev/l3_email',
-        path2, # '/dev/l3_email/<string:id>',
-        endpoint=mongo_clt, # 'l3_email',
+        email.Email,
+        path1, # '/dev/email',
+        path2, # '/dev/email/<string:id>',
+        endpoint=mongo_clt, # 'email',
     )
     # Note:
     # 'Endpoints':
