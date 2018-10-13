@@ -87,7 +87,7 @@ class SignalElement(Resource):
             abort(405)
         # find document and delete
         result = database.delete_one(self.collection, id)
-        if result == 1:
+        if result == True:
             return "Delete success!", 200
         else:
             return "Delete failed！", 417
