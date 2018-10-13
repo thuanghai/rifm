@@ -213,7 +213,7 @@ Note: You can update one or more fields at a time. But update modify user always
 curl -X DELETE http://<FQDN>:27080/<db_name>/control_frame/<string:_id>
 ```
 
-### **IP Data (2nd Level)**
+### **IP Data**
 
 **Collection Design:**
 
@@ -312,7 +312,7 @@ Note: You can update one or more fields at a time. But update modify user always
 curl -X DELETE http://<FQDN>:27080/<db_name>/ip_data/<string:_id>
 ```
 
-### **E-mail (3rd Level)**
+### **E-mail**
 
 **Collection Design:**
 
@@ -404,7 +404,7 @@ Note: You can update one or more fields at a time. But update modify user always
 curl -X DELETE http://<FQDN>:27080/<db_name>/email/<string:_id>
 ```
 
-### **HTTP (3rd Level)**
+### **HTTP**
 
 **Collection Design:**
 

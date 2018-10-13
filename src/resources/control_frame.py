@@ -79,7 +79,7 @@ class ControlFrame(Resource):
             abort(405)
         # write to database
         result = database.delete_one(self.collection, id)
-        if result == 1:
+        if result == True:
             return "Delete success!", 200
         else:
             return "Delete failed！", 417
