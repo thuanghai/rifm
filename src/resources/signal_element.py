@@ -91,4 +91,3 @@ class SignalElement(Resource):
             return "Delete success!", 200
         else:
             return "Delete failed！", 417
-        
