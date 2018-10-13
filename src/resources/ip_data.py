@@ -12,32 +12,23 @@ from common import datetime as dt
 
 class IpData(Resource):
     
-# | Field(L1)    | Field(L2) | Description                            |
-# | ------------ | --------- | -------------------------------------- |
-# | _id          |           | <datatime+business_type+serial_number> |
-# | src_id       |           | <source_data_id(l1_signal_element id)> |
-# | encrypted    |           | <y/n>                                  |
-# | 1st_layer_ip | protocol  | <network_protocol>                     |
-# |              | src_ip    | <src_ip>                               |
-# |              | dst_ip    | <dst_ip>                               |
-# |              | src_port  | <src_port>                             |
-# |              | dst_port  | <dst_port>                             |
-# | 2nd_layer_ip | protocol  | <network_protocol>                     |
-# |              | src_ip    | <src_ip>                               |
-# |              | dst_ip    | <dst_ip>                               |
-# |              | src_port  | <src_port>                             |
-# |              | dst_port  | <dst_port>                             |
-# | 3rd_layer_ip | protocol  | <network_protocol>                     |
-# |              | src_ip    | <src_ip>                               |
-# |              | dst_ip    | <dst_ip>                               |
-# |              | src_port  | <src_port>                             |
-# |              | dst_port  | <dst_port>                             |
-# | storage_path |           | <file_storage_path>                    |
-# | time_stamp   |           | <time_stamp_value>                     |
-# | create       | user      | <create_user_name>                     |
-# |              | time      | <create_date_time>                     |
-# | modify       | user      | <modify_user_name>                     |
-# |              | time      | <modify_date_time>                     |
+# | Field(L1)       | Field(L2) | Description                            |
+# | --------------- | --------- | -------------------------------------- |
+# | _id             |           | <datatime+business_type+serial_number> |
+# | src_id          |           | <source_data_id(signal_element_id)>    |
+# | embedded_src_id |           | <embedded_src_ip_packet_record_id>     |
+# | encrypted       |           | <y/n>                                  |
+# | protocol        |           | <network_protocol>                     |
+# | src_ip          |           | <src_ip>                               |
+# | dst_ip          |           | <dst_ip>                               |
+# | src_port        |           | <src_port>                             |
+# | dst_port        |           | <dst_port>                             |
+# | storage_path    |           | <file_storage_path>                    |
+# | time_stamp      |           | <time_stamp_value>                     |
+# | create          | user      | <create_user_name>                     |
+# |                 | time      | <create_date_time>                     |
+# | modify          | user      | <modify_user_name>                     |
+# |                 | time      | <modify_date_time>                     |
 
     def __init__(self, **kwargs):
         self.collection = 'ip_data'
