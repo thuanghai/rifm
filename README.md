@@ -27,7 +27,7 @@
 
 ## **MongoDB Design And Usage**
 
-### **Signal Element **
+### **Signal Element**
 
 **Collection Design:**
 
