@@ -17,7 +17,7 @@ packaging==18.0
 pip-autoremove==0.9.1
 pip-review==1.0
 pluggy==0.7.1
-py==1.6.0
+py==1.7.0
 pylint==2.1.1
 pymodm==0.4.1
 pymongo==3.7.2
