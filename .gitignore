@@ -2,6 +2,7 @@
 .git/*
 .vscode/*
 venv/*
+pypiwheel/*
 # ignore all folder
 *__pycache__/
 *.pytest_cache/

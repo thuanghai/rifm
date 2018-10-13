@@ -9,11 +9,11 @@ from flask import url_for
 import sys
 sys.path.append('...')
 from common.datetime import get_timestamp
-from resources.l2_ip_data import IpData
+from resources.ip_data import IpData
 
-class TestL1SignalElement():
+class TestIpData():
     # document '_id' in mongodb during the test
-    __test_id = 'test_l2_ip_data-' + str(get_timestamp())
+    __test_id = 'test_ip_data-' + str(get_timestamp())
 
     def test_post(self, client):
         """
@@ -54,7 +54,7 @@ class TestL1SignalElement():
         }
         # test client request with 'POST' method 
         chkresponse = client.post(
-            url_for('api.l2_ip_data'), 
+            url_for('api.ip_data'), 
             json = insert_data
         )
         # Note:
@@ -71,7 +71,7 @@ class TestL1SignalElement():
         # set read document '_id'
         find_id = self.__test_id
         # test client request with 'GET' method 
-        chkresponse = client.get(url_for('api.l2_ip_data', data_id = find_id))
+        chkresponse = client.get(url_for('api.ip_data', id = find_id))
         assert chkresponse.status_code == 200
 
     def test_put(self, client):
@@ -99,7 +99,7 @@ class TestL1SignalElement():
 
         # test client request with 'PUT' method 
         chkresponse = client.put(
-            url_for('api.l2_ip_data', data_id = update_id),
+            url_for('api.ip_data', id = update_id),
             json = update_data
         )
         # Note: How to use 'url_for', you can see this file above or Flask Quick Start.
@@ -113,6 +113,6 @@ class TestL1SignalElement():
         delete_id = self.__test_id
         # test client request with 'DELETE' method 
         chkresponse = client.delete(
-            url_for('api.l2_ip_data', data_id = delete_id)
+            url_for('api.ip_data', id = delete_id)
         )
         assert chkresponse.status_code == 200

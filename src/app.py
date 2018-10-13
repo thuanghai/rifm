@@ -9,89 +9,79 @@ from flask_restful import (
     Api,
     Resource
 )
+from flask_pymongo import PyMongo
 
-# from config import load_config
 from config import load_config
+from common import database
 from resources import (
-    l1_signal_element,
-    l2_control_frame,
-    l2_ip_data,
-    l3_http,
-    l3_email
+    signal_element,
+    control_frame,
+    ip_data,
+    http,
+    email
 )
 
-def create_app(test_config=None):
+def create_app(config):
+    """
+    Create and configure a new app instance
+    """
     app = Flask(__name__)
 
-    # Load config
-    config =  load_config()
-    app.config.from_object(config)
-
-    mongo_host = app.config.get('MONGO_HOST')
-    mongo_port = app.config.get('MONGO_PORT')
-    mongo_db = app.config.get('MONGO_DB_NAME')
-    """
-    <!> 'mongo_cfg' uses 'tuple' type which can be hashed for transfering multiple arguments.
-    """
-    mongo_cfg = (mongo_host, mongo_port, mongo_db)
-
+    # set resource with blueprint for this app
     api_bp = Blueprint('api', __name__)
     api = Api(api_bp)
-
-    # set route for 'l1_signal_element' function
-    mongo_clt = 'l1_signal_element'
-    path1 = '/' + mongo_db + '/' + mongo_clt
-    path2 = path1 + '/<string:data_id>'
+    # get database name
+    db_name = config.MONGO_DB_NAME
+    # set route for 'signal_element' function
+    mongo_clt = 'signal_element'
+    path1 = '/' + db_name + '/' + mongo_clt
+    path2 = path1 + '/<string:id>'
     api.add_resource(
-        l1_signal_element.SignalElement,
-        path1, # '/dev/l1_signal_element',
-        path2, # '/dev/l1_signal_element/<string:data_id>',
-        endpoint=mongo_clt, #'l1_signal_element',
-        resource_class_kwargs={'mongo_cfg': mongo_cfg}
+        signal_element.SignalElement,
+        path1, # '/<db_name>/signal_element',
+        path2, # '/<db_name/signal_element/<string:id>',
+        endpoint=mongo_clt, #'signal_element',
+        # resource_class_kwargs={'mongo_cfg': mongo}
     )
-    # set route for 'l2_control_frame' function
-    mongo_clt = 'l2_control_frame'
-    path1 = '/' + mongo_db + '/' + mongo_clt
-    path2 = path1 + '/<string:data_id>'
+    # set route for 'control_frame' function
+    mongo_clt = 'control_frame'
+    path1 = '/' + db_name + '/' + mongo_clt
+    path2 = path1 + '/<string:id>'
     api.add_resource(
-        l2_control_frame.ControlFrame,
-        path1, # '/dev/l2_control_frame',
-        path2, # '/dev/l2_control_frame/<string:data_id>',
-        endpoint=mongo_clt, # 'l2_control_frame',
-        resource_class_kwargs={'mongo_cfg': mongo_cfg}
+        control_frame.ControlFrame,
+        path1, # '/dev/control_frame',
+        path2, # '/dev/control_frame/<string:id>',
+        endpoint=mongo_clt, # 'control_frame',
     )
-    # set route for 'l2_ip_data' function
-    mongo_clt = 'l2_ip_data'
-    path1 = '/' + mongo_db + '/' + mongo_clt
-    path2 = path1 + '/<string:data_id>'
+    # set route for 'ip_data' function
+    mongo_clt = 'ip_data'
+    path1 = '/' + db_name + '/' + mongo_clt
+    path2 = path1 + '/<string:id>'
     api.add_resource(
-        l2_ip_data.IpData,
-        path1, # '/dev/l2_ip_data',
-        path2, # '/dev/l2_ip_data/<string:data_id>',
-        endpoint=mongo_clt, # 'l2_ip_data',
-        resource_class_kwargs={'mongo_cfg': mongo_cfg}
+        ip_data.IpData,
+        path1, # '/dev/ip_data',
+        path2, # '/dev/ip_data/<string:id>',
+        endpoint=mongo_clt, # 'ip_data',
     )
-    # set route for 'l3_http' function
-    mongo_clt = 'l3_http'
-    path1 = '/' + mongo_db + '/' + mongo_clt
-    path2 = path1 + '/<string:data_id>'
+    # set route for 'http' function
+    mongo_clt = 'http'
+    path1 = '/' + db_name + '/' + mongo_clt
+    path2 = path1 + '/<string:id>'
     api.add_resource(
-        l3_http.Http,
-        path1, # '/dev/l3_http',
-        path2, # '/dev/l3_http/<string:data_id>',
-        endpoint=mongo_clt, # 'l3_http',
-        resource_class_kwargs={'mongo_cfg': mongo_cfg}
+        http.Http,
+        path1, # '/dev/http',
+        path2, # '/dev/http/<string:id>',
+        endpoint=mongo_clt, # 'http',
     )
-    # set route for 'l3_email' function
-    mongo_clt = 'l3_email'
-    path1 = '/' + mongo_db + '/' + mongo_clt
-    path2 = path1 + '/<string:data_id>'
+    # set route for 'email' function
+    mongo_clt = 'email'
+    path1 = '/' + db_name + '/' + mongo_clt
+    path2 = path1 + '/<string:id>'
     api.add_resource(
-        l3_email.Email,
-        path1, # '/dev/l3_email',
-        path2, # '/dev/l3_email/<string:data_id>',
-        endpoint=mongo_clt, # 'l3_email',
-        resource_class_kwargs={'mongo_cfg': mongo_cfg}
+        email.Email,
+        path1, # '/dev/email',
+        path2, # '/dev/email/<string:id>',
+        endpoint=mongo_clt, # 'email',
     )
     # Note:
     # 'Endpoints':
@@ -112,13 +102,15 @@ def create_app(test_config=None):
 if __name__ == '__main__':
     # set os mode
     os.environ['MODE'] = 'DEVELOPMENT'
-
-    app = create_app()
-
-    debug = app.config.get('DEBUG')
-    # RIFM(Restful Interface For MongoDB) Server IP or DNS Name
-    host = app.config.get('HOST')
-    # RIFM(Restful Interface For MongoDB) Server Port
-    port = app.config.get('PORT')
-
-    app.run(host, port, debug)
+    # get config
+    cfg = load_config()
+    # create app
+    app = create_app(cfg)
+    # set operater for mongodb
+    database.mongo.init_app(app, cfg.MONGO_URI)
+    # run application
+    app.run(
+        cfg.HOST,
+        cfg.PORT,
+        cfg.DEBUG
+    )
